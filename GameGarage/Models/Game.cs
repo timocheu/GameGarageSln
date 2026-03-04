@@ -30,4 +30,10 @@ public class Game {
 
     public string? Screenshots { get; set; }
 
+    public string? Windows { get; set; }
+
+    public string? Mac { get; set; }
+
+    public string? Linux { get; set; }
+
 }
