@@ -1,12 +1,83 @@
-@model IQueryable<Game>
-
-@foreach (var game in Model ?? Enumerable.Empty<Game>())
-{
-    <div>
-        <h3>@game.Name</h3>
-        @game.AboutTheGame
-        <h4>@game.Price</h4>
-    </div>
+@{
+	// You can later pull these from your Database or Model
+	var slides = new[] {
+		new { Id = 0, Placeholder = "Slide 1: Black Myth Wukong" },
+		new { Id = 1, Placeholder = "Slide 2: GTA Online" },
+		new { Id = 2, Placeholder = "Slide 3: Elden Ring" },
+		new { Id = 3, Placeholder = "Slide 4: Dragon Ball" }
+	};
 }
 
-<h1>Welcome to GameGarage!</h1>
+<section class="max-w-7xl mx-auto mt-8 px-4 relative group" id="hero-carousel">
+	<div class="relative h-[450px] overflow-hidden rounded-lg bg-gray-900 shadow-2xl border border-gray-800">
+
+		@foreach (var slide in slides)
+		{
+			<div class="carousel-slide absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none" data-index="@slide.Id">
+				<div class="w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center text-gray-400">
+					<span class="text-xl font-bold uppercase tracking-widest italic">@slide.Placeholder</span>
+				</div>
+			</div>
+		}
+
+		<button onclick="moveSlide(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all z-10">
+			<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+		</button>
+		<button onclick="moveSlide(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all z-10">
+			<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+		</button>
+
+		<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
+			@foreach (var slide in slides)
+			{
+				<button onclick="setSlide(@slide.Id)" class="carousel-dot h-1 transition-all duration-300 bg-gray-500 w-4 hover:bg-white" data-index="@slide.Id"></button>
+			}
+		</div>
+	</div>
+</section>
+
+<partial name="IndexMain" />
+
+<script>
+	let currentIndex = 0;
+	const slides = document.querySelectorAll('.carousel-slide');
+	const dots = document.querySelectorAll('.carousel-dot');
+
+	function updateCarousel() {
+		slides.forEach((slide, i) => {
+			if (i === currentIndex) {
+				slide.classList.remove('opacity-0', 'pointer-events-none');
+				slide.classList.add('opacity-100');
+			} else {
+				slide.classList.add('opacity-0', 'pointer-events-none');
+				slide.classList.remove('opacity-100');
+			}
+		});
+
+		dots.forEach((dot, i) => {
+			if (i === currentIndex) {
+				dot.classList.add('bg-white', 'w-8');
+				dot.classList.remove('bg-gray-500', 'w-4');
+			} else {
+				dot.classList.remove('bg-white', 'w-8');
+				dot.classList.add('bg-gray-500', 'w-4');
+			}
+		});
+	}
+
+	function moveSlide(direction) {
+		currentIndex = (currentIndex + direction + slides.length) % slides.length;
+		updateCarousel();
+	}
+
+	function setSlide(index) {
+		currentIndex = index;
+		updateCarousel();
+	}
+
+	// Initialize
+	updateCarousel();
+
+	// Optional: Auto-slide every 5 seconds
+	setInterval(() => moveSlide(1), 5000);
+</script>

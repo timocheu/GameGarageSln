@@ -1,0 +1,91 @@
+﻿@{
+	var featuredGames = new[] {
+		new { Title = "Grand theft auto online", Tags = "Casual, Action, Racing" },
+		new { Title = "Dragon Ball Sparking: Zero", Tags = "Dark, Adventure, Sci-fi" },
+		new { Title = "Black Myth Wukong", Tags = "Mythology, Action, Adventure" },
+		new { Title = "Stardew Valley", Tags = "Farming, Friendship, Adventure" },
+		new { Title = "Black Myth Wukong", Tags = "The King Monkey Games" },
+		new { Title = "Grand theft auto V", Tags = "Breach, Conquer, Escape" },
+		new { Title = "Elden Ring", Tags = "Souls Game, Fight for Honor" },
+		new { Title = "Grand theft auto online", Tags = "Drive, Fight, Survive." }
+	};
+
+	var newReleases = new[] {
+		new { Name = "Space Marine II", Tag = "NEW", Desc = "For the Emperor!" },
+		new { Name = "Sonic x Shadow Generations", Tag = "NEW", Desc = "Shadow's back!" },
+		new { Name = "Dragon Ball: Sparking! Zero", Tag = "HOT", Desc = "High-energy battle" },
+		new { Name = "Goat Simulator: Remastered", Tag = "NEW", Desc = "The GOAT is back!" },
+		new { Name = "Planet Coaster 2", Tag = "NEW", Desc = "Build and manage your park" }
+	};
+}
+
+<main class="max-w-7xl mx-auto px-4 py-12">
+	<h2 class="text-2xl font-bold mb-8 tracking-wide">FEATURED GAMES</h2>
+
+	<div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+		@foreach (var game in featuredGames)
+		{
+			<div class="group cursor-pointer">
+				<div class="aspect-[3/4] bg-[#0a1628] rounded mb-3 overflow-hidden border border-gray-800 group-hover:border-blue-500 transition-all duration-300 flex items-center justify-center">
+					<span class="text-gray-700 text-[10px] uppercase font-bold">Poster Image</span>
+				</div>
+				<h3 class="font-bold text-sm leading-tight group-hover:text-blue-400">@game.Title</h3>
+				<p class="text-[11px] text-gray-500 mt-1 italic">@game.Tags</p>
+			</div>
+		}
+	</div>
+
+	<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+		<div class="space-y-4">
+			<h3 class="text-sm font-bold text-gray-400 mb-6 uppercase tracking-widest">New Releases</h3>
+			@foreach (var game in newReleases)
+			{
+				<div class="flex items-center space-x-4 p-2 hover:bg-white/5 rounded transition cursor-pointer">
+					<div class="w-12 h-16 bg-gray-800 rounded flex-shrink-0 flex items-center justify-center border border-gray-700">
+						<span class="text-[8px] text-gray-600">IMG</span>
+					</div>
+					<div>
+						<h4 class="text-sm font-bold">@game.Name</h4>
+						<span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">@game.Tag</span>
+						<p class="text-xs text-gray-500 mt-1">@game.Desc</p>
+					</div>
+				</div>
+			}
+		</div>
+
+		<div class="space-y-4">
+			<h3 class="text-sm font-bold text-gray-400 mb-6 uppercase tracking-widest">Top Player Rated</h3>
+			@foreach (var game in newReleases)
+			{
+				<div class="flex items-center space-x-4 p-2 hover:bg-white/5 rounded transition cursor-pointer">
+					<div class="w-12 h-16 bg-gray-800 rounded flex-shrink-0 flex items-center justify-center border border-gray-700">
+						<span class="text-[8px] text-gray-600">IMG</span>
+					</div>
+					<div>
+						<h4 class="text-sm font-bold">@game.Name</h4>
+						<span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">@game.Tag</span>
+						<p class="text-xs text-gray-500 mt-1">@game.Desc</p>
+					</div>
+				</div>
+			}
+		</div>
+
+		<div class="space-y-4">
+			<h3 class="text-sm font-bold text-gray-400 mb-6 uppercase tracking-widest">Most Played</h3>
+			@foreach (var game in newReleases)
+			{
+				<div class="flex items-center space-x-4 p-2 hover:bg-white/5 rounded transition cursor-pointer">
+					<div class="w-12 h-16 bg-gray-800 rounded flex-shrink-0 flex items-center justify-center border border-gray-700">
+						<span class="text-[8px] text-gray-600">IMG</span>
+					</div>
+					<div>
+						<h4 class="text-sm font-bold">@game.Name</h4>
+						<span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">@game.Tag</span>
+						<p class="text-xs text-gray-500 mt-1">@game.Desc</p>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+</main>

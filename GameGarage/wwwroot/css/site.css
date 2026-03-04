@@ -1,0 +1,8 @@
+﻿body {
+    background-color: #020b18;
+    color: white;
+}
+
+.gradient-overlay {
+    background: linear-gradient(to bottom, transparent 0%, #020b18 100%);
+}
