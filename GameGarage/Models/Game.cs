@@ -8,7 +8,7 @@ public class Game {
     public int Id { get; set; }
 
     [Required]
-    public string Name { get; set; }
+    public string? Name { get; set; }
     
     [DataType(DataType.Date)]
     public DateTime ReleaseDate { get; set; }
