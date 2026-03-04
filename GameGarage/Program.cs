@@ -7,7 +7,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<GameGarageDbContext>( options =>
     options.UseSqlite(
-        builder.Configuration["ConnectionStrings:GameGarageDbConnection"]
+        builder.Configuration["ConnectionStrings:GameGarageConnection"]
         ));
 
 builder.Services.AddScoped<IGarageRepository, EFGarageRepository>();

@@ -1,7 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
+using GameGarage.Models;
 
 namespace GameGarage.Controllers;
 
 public class HomeController : Controller {
-    public IActionResult Index() => View();
+    private IGarageRepository repository;
+
+    public HomeController(IGarageRepository repo)
+    {
+        repository = repo;
+    }
+
+
+    public IActionResult Index() => View(repository.Games);
 }

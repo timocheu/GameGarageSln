@@ -1,1 +1,12 @@
+@model IQueryable<Game>
+
+@foreach (var game in Model ?? Enumerable.Empty<Game>())
+{
+    <div>
+        <h3>@game.Name</h3>
+        @game.AboutTheGame
+        <h4>@game.Price</h4>
+    </div>
+}
+
 <h1>Welcome to GameGarage!</h1>
