@@ -1,40 +1,21 @@
-@{
-	// You can later pull these from your Database or Model
-	var slides = new[] {
-		new { Id = 0, Placeholder = "Slide 1: Black Myth Wukong" },
-		new { Id = 1, Placeholder = "Slide 2: GTA Online" },
-		new { Id = 2, Placeholder = "Slide 3: Elden Ring" },
-		new { Id = 3, Placeholder = "Slide 4: Dragon Ball" }
-	};
-
-	var featuredGames = new[] {
-		new { Title = "Grand theft auto online", Tags = "Casual, Action, Racing" },
-		new { Title = "Dragon Ball Sparking: Zero", Tags = "Dark, Adventure, Sci-fi" },
-		new { Title = "Black Myth Wukong", Tags = "Mythology, Action, Adventure" },
-		new { Title = "Stardew Valley", Tags = "Farming, Friendship, Adventure" },
-		new { Title = "Black Myth Wukong", Tags = "The King Monkey Games" },
-		new { Title = "Grand theft auto V", Tags = "Breach, Conquer, Escape" },
-		new { Title = "Elden Ring", Tags = "Souls Game, Fight for Honor" },
-		new { Title = "Grand theft auto online", Tags = "Drive, Fight, Survive." }
-	};
-
-	var newReleases = new[] {
-		new { Name = "Space Marine II", Tag = "NEW", Desc = "For the Emperor!" },
-		new { Name = "Sonic x Shadow Generations", Tag = "NEW", Desc = "Shadow's back!" },
-		new { Name = "Dragon Ball: Sparking! Zero", Tag = "HOT", Desc = "High-energy battle" },
-		new { Name = "Goat Simulator: Remastered", Tag = "NEW", Desc = "The GOAT is back!" },
-		new { Name = "Planet Coaster 2", Tag = "NEW", Desc = "Build and manage your park" }
-	};
-}
+@model HomeViewModel
 
 <section class="max-w-7xl mx-auto mt-8 px-4 relative group" id="hero-carousel">
 	<div class="relative h-[450px] overflow-hidden rounded-lg bg-gray-900 shadow-2xl border border-gray-800">
 
-		@foreach (var slide in slides)
+		@foreach (var slide in Model.Slides ?? Enumerable.Empty<Game>())
 		{
 			<div class="carousel-slide absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none" data-index="@slide.Id">
-				<div class="w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center text-gray-400">
-					<span class="text-xl font-bold uppercase tracking-widest italic">@slide.Placeholder</span>
+				<div class="relative w-full h-full">
+					<img src="@slide.HeaderImage"
+						 alt="@slide.Name"
+						 class="w-full h-full object-cover object-center shadow-inner" />
+
+					<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+
+					<div class="absolute bottom-16 left-12">
+						<h2 class="text-3xl font-bold text-white uppercase italic tracking-tighter">@slide.Name</h2>
+					</div>
 				</div>
 			</div>
 		}
@@ -47,7 +28,7 @@
 		</button>
 
 		<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
-			@foreach (var slide in slides)
+			@foreach (var slide in Model.Slides ?? Enumerable.Empty<Game>())
 			{
 				<button onclick="setSlide(@slide.Id)" class="carousel-dot h-1 transition-all duration-300 bg-gray-500 w-4 hover:bg-white" data-index="@slide.Id"></button>
 			}
@@ -59,14 +40,16 @@
 	<h2 class="text-2xl font-bold mb-8 tracking-wide">FEATURED GAMES</h2>
 
 	<div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-		@foreach (var game in featuredGames)
+		@foreach (var game in @Model.Features ?? Enumerable.Empty<Game>())
 		{
 			<div class="group cursor-pointer">
 				<div class="aspect-[3/4] bg-[#0a1628] rounded mb-3 overflow-hidden border border-gray-800 group-hover:border-blue-500 transition-all duration-300 flex items-center justify-center">
-					<span class="text-gray-700 text-[10px] uppercase font-bold">Poster Image</span>
+						<img src="@game.HeaderImage"
+							 alt="@game.Name"
+							 class="w-full h-full object-cover object-center shadow-inner" />
 				</div>
-				<h3 class="font-bold text-sm leading-tight group-hover:text-blue-400">@game.Title</h3>
-				<p class="text-[11px] text-gray-500 mt-1 italic">@game.Tags</p>
+				<h3 class="font-bold text-sm leading-tight group-hover:text-blue-400">@game.Name</h3>
+				<p class="text-[11px] text-gray-500 mt-1 italic">Tags</p>
 			</div>
 		}
 	</div>
@@ -75,16 +58,18 @@
 
 		<div class="space-y-4">
 			<h3 class="text-sm font-bold text-gray-400 mb-6 uppercase tracking-widest">New Releases</h3>
-			@foreach (var game in newReleases)
+			@foreach (var game in @Model.NewRelease ?? Enumerable.Empty<Game>())
 			{
 				<div class="flex items-center space-x-4 p-2 hover:bg-white/5 rounded transition cursor-pointer">
 					<div class="w-12 h-16 bg-gray-800 rounded flex-shrink-0 flex items-center justify-center border border-gray-700">
-						<span class="text-[8px] text-gray-600">IMG</span>
+						<img src="@game.HeaderImage"
+							 alt="@game.Name"
+							 class="w-full h-full object-cover object-center shadow-inner" />
 					</div>
 					<div>
 						<h4 class="text-sm font-bold">@game.Name</h4>
-						<span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">@game.Tag</span>
-						<p class="text-xs text-gray-500 mt-1">@game.Desc</p>
+						<span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">Tag</span>
+						<p class="text-xs text-gray-500 mt-1">Desc</p>
 					</div>
 				</div>
 			}
@@ -92,16 +77,18 @@
 
 		<div class="space-y-4">
 			<h3 class="text-sm font-bold text-gray-400 mb-6 uppercase tracking-widest">Top Player Rated</h3>
-			@foreach (var game in newReleases)
+			@foreach (var game in @Model.TopPlayerRated ?? Enumerable.Empty<Game>())
 			{
 				<div class="flex items-center space-x-4 p-2 hover:bg-white/5 rounded transition cursor-pointer">
 					<div class="w-12 h-16 bg-gray-800 rounded flex-shrink-0 flex items-center justify-center border border-gray-700">
-						<span class="text-[8px] text-gray-600">IMG</span>
+						<img src="@game.HeaderImage"
+							 alt="@game.Name"
+							 class="w-full h-full object-cover object-center shadow-inner" />
 					</div>
 					<div>
 						<h4 class="text-sm font-bold">@game.Name</h4>
-						<span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">@game.Tag</span>
-						<p class="text-xs text-gray-500 mt-1">@game.Desc</p>
+						<span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">Tag</span>
+						<p class="text-xs text-gray-500 mt-1">Lorem Ipsum</p>
 					</div>
 				</div>
 			}
@@ -109,16 +96,18 @@
 
 		<div class="space-y-4">
 			<h3 class="text-sm font-bold text-gray-400 mb-6 uppercase tracking-widest">Most Played</h3>
-			@foreach (var game in newReleases)
+			@foreach (var game in @Model.MostPlayed ?? Enumerable.Empty<Game>())
 			{
 				<div class="flex items-center space-x-4 p-2 hover:bg-white/5 rounded transition cursor-pointer">
 					<div class="w-12 h-16 bg-gray-800 rounded flex-shrink-0 flex items-center justify-center border border-gray-700">
-						<span class="text-[8px] text-gray-600">IMG</span>
+						<img src="@game.HeaderImage"
+							 alt="@game.Name"
+							 class="w-full h-full object-cover object-center shadow-inner" />
 					</div>
 					<div>
 						<h4 class="text-sm font-bold">@game.Name</h4>
-						<span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">@game.Tag</span>
-						<p class="text-xs text-gray-500 mt-1">@game.Desc</p>
+						<span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">Tag</span>
+						<p class="text-xs text-gray-500 mt-1">Desc</p>
 					</div>
 				</div>
 			}
