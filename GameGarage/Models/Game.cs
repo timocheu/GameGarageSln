@@ -28,7 +28,8 @@ public class Game {
 
     public string? HeaderImage { get; set; }
 
-    public string? Screenshots { get; set; }
+    public string[]? Screenshots { get; set; }
+    public string[]? Tags { get; set; }
 
     public string? Windows { get; set; }
 

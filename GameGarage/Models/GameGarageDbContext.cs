@@ -39,7 +39,17 @@ public partial class GameGarageDbContext : DbContext
 
             entity.Property(e => e.HeaderImage).HasColumnName("Header image");
 
-            entity.Property(e => e.Screenshots).HasColumnName("Screenshots");
+            entity.Property(e => e.Screenshots)
+            .HasConversion(e => 
+            string.Join(',', e ?? Enumerable.Empty<string>()), 
+            e => e.Split(',', StringSplitOptions.RemoveEmptyEntries))
+            .HasColumnName("Screenshots");
+
+            entity.Property(e => e.Tags)
+            .HasConversion(e => 
+            string.Join(',', e ?? Enumerable.Empty<string>()), 
+            e => e.Split(',', StringSplitOptions.RemoveEmptyEntries))
+            .HasColumnName("Tags");
 
             entity.Property(e => e.Linux)
                 .HasColumnType("BOOL")
