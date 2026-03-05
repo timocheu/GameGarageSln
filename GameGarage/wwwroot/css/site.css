@@ -8,3 +8,15 @@ body {
 .gradient-overlay {
     background: linear-gradient(to bottom, transparent 0%, #020b18 100%);
 }
+
+.carousel-stage {
+    display: flex;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 1.5rem; /* Space between the main image and the peeking ones */
+}
+
+.carousel-item {
+    min-width: 80%; /* The main image takes 80% of the width */
+    height: 450px;
+    flex-shrink: 0;
+}
