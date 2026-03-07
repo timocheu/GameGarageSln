@@ -32,8 +32,7 @@ public class HomeController : Controller {
     } 
 
     public IActionResult App(int id) {
-        var app = repository.Games
-            .FirstOrDefault(u => u.Id == id);
+        var app = repository.Games.FirstOrDefault(u => u.Id == id);
 
         return View(app);
     }

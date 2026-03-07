@@ -1,4 +1,100 @@
 @model Game
 
-<h1>@Model.Name</h1>
-<h2>@Model.AboutTheGame</h2>
+@if (Model == null)
+{
+    <div class="flex flex-col items-center justify-center min-h-screen space-y-6">
+
+        <h1 class="text-4xl font-bold tracking-tight">Game not found</h1>
+
+        <p class="text-gray-400 text-sm">The game you are looking for does not exist or has been removed.</p>
+
+        <a href="/"
+            class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-sm transition-colors text-sm font-semibold uppercase tracking-wider">
+
+            Back to Home
+
+        </a>
+
+    </div>
+}
+else
+{
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl text-white mb-4">@Model.Name</h1>
+
+        <div class="flex flex-col lg:flex-row gap-6">
+
+            <div class="lg:w-2/3">
+                @if (@Model.Screenshots != null)
+                {
+                    <div class="h-[400px] bg-gray-900 border border-black mb-2 flex items-center justify-center">
+                        <img id="mainDisplay" src="@Model.HeaderImage" class="w-full h-full object-cover" />
+                    </div>
+                    <div
+                        class="w-full overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
+                        <div class="flex gap-1 w-max">
+                            <img src="@Model.HeaderImage" onclick="swapImage('@Model.HeaderImage')"
+                                class="w-24 h-16 border-2 border-white cursor-pointer hover:border-blue-400 shrink-0" />
+
+                            @foreach (string s in Model.Screenshots)
+                            {
+                                <img src="@s" onclick="swapImage('@s')"
+                                    class="w-24 h-16 cursor-pointer hover:border-blue-400 shrink-0" />
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="h-[400px] bg-gray-900 border border-black mb-2 flex items-center justify-center">
+                        <img id="mainDisplay" alt="Main" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="flex gap-2">
+                        <img src="#" onclick="swapImage('image1.jpg')" alt="No image"
+                            class="w-20 h-12 border-2 border-white cursor-pointer hover:border-blue-400" />
+                    </div>
+                }
+            </div>
+
+            <div class="lg:w-1/3 space-y-4">
+                <div class="bg-gray-800/50 p-4 border border-black">
+                    <img src="@Model.HeaderImage" alt="@Model.Name" class="w-full mb-4" />
+                    <p class="text-sm leading-relaxed">
+                        @Model.AboutTheGame
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-[140px_1fr] gap-y-3 text-xs leading-4">
+                    <div class="text-gray-500">RELEASE DATE:</div>
+                    <div class="text-gray-300">@Model.ReleaseDate</div>
+
+                    <div class="text-gray-500">DEVELOPER:</div>
+                    <div class="text-blue-400 cursor-pointer hover:underline">@Model.Developers</div>
+
+                    <div class="text-gray-500">PUBLISHER:</div>
+                    <div class="text-blue-400 cursor-pointer hover:underline">@Model.Publishers</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function swapImage(newSrc) {
+            // 1. Change the main image
+            const mainImg = document.getElementById('mainDisplay');
+            mainImg.src = newSrc;
+
+            // 2. Optional: Add visual feedback to active thumbnail
+            const thumbnails = document.querySelectorAll('.flex > img');
+            thumbnails.forEach(thumb => {
+                if (thumb.src.includes(newSrc)) {
+                    thumb.classList.add('border-white');
+                    thumb.classList.remove('border-transparent');
+                } else {
+                    thumb.classList.remove('border-white');
+                    thumb.classList.add('border-transparent');
+                }
+            });
+        }
+    </script>
+}
