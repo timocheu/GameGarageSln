@@ -16,9 +16,11 @@ builder.Services.AddScoped<IGarageRepository, EFGarageRepository>();
 
 var app = builder.Build();
 
-// app.MapGet("/", () => "Hello World!");
 app.UseStaticFiles();
-app.MapDefaultControllerRoute();
+app.MapControllerRoute("home", "/", 
+        new { Controller = "Home", action = "Index" });
+app.MapControllerRoute("app", "app/{id}", 
+        new { Controller = "Home", action = "App" });
 
 
 app.Run();

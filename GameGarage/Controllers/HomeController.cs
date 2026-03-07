@@ -12,7 +12,6 @@ public class HomeController : Controller {
         repository = repo;
     }
 
-
     public IActionResult Index() {
         // Generate random pool view models
         var randomPool = repository.Games
@@ -31,4 +30,11 @@ public class HomeController : Controller {
 
         return View(viewModels);
     } 
+
+    public IActionResult App(int id) {
+        var app = repository.Games
+            .FirstOrDefault(u => u.Id == id);
+
+        return View(app);
+    }
 }
