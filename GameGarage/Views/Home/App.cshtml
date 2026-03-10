@@ -68,13 +68,23 @@ else
                 <div class="bg-gray-800/50 p-4 border border-black">
                     <img src="@Model.HeaderImage" alt="@Model.Name" class="w-full mb-4" />
                     <p class="text-sm leading-relaxed">
-                        @if (Model.AboutTheGame != null)
+                        @if (Model.AboutTheGame != null && Model.AboutTheGame.Length > 300)
                         {
-                            @Model.AboutTheGame.Substring(0, 300)
+                            <p>@Model.AboutTheGame.Substring(0, 300)...</p>
+                            
                         }
-                        ...
                     </p>
+                    <div class="flex flex-col gap-3">
+                        <button class="bg-[#4d6b83] hover:bg-[#5a7d99] text-white px-6 py-2 rounded-sm text-sm font-semibold transition-colors">
+                            Add to cart
+                        </button>
+                        
+                        <button class="bg-[#709242] hover:bg-[#85a850] text-white px-6 py-2 rounded-sm text-sm font-semibold transition-colors">
+                            Buy now
+                        </button>
+                    </div>
                 </div>
+
 
                 <div class="grid grid-cols-[140px_1fr] gap-y-3 text-xs leading-4">
                     <div class="text-gray-500">RELEASE DATE:</div>
