@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="icon" type="image/svg" href="/images/logo.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
           theme: {
@@ -22,69 +23,85 @@
 </head>
 
 <body class="font-sans antialiased">
-    @* Navigation bar *@
-    <nav class="flex items-center justify-between px-8 py-5 bg-[#020610] border-b border-gray-800/50 backdrop-blur-sm sticky top-0 z-50">
-        <div class="flex items-center gap-3 group cursor-pointer">
-            <img src="~/images/logo.svg" alt="Game Logo" class="w-8 h-8" />
+    <nav>
+        <a href="#" class="nav-logo">
+            <div class="nav-logo-icon"><img src="/images/logo.svg" alt="Logo Game Garage" /></div>
             <span class="text-2xl font-black tracking-tighter italic text-white group-hover:text-blue-400 transition-colors">
                 GAME GARAGE
             </span>
-        </div>
+        </a>
 
-        <div class="relative w-full max-w-sm">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-blue-400">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
+        <ul class="nav-links">
+            <li><a href="#">Store</a></li>
+            <li>
+                <button class="nav-genre-btn">
+                    Browse Genres
+                    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                </button>
+            </li>
+            <li><a href="#">New Releases</a></li>
+            <li><a href="#">Top Rated</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <div class="nav-search">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+                <input type="text" placeholder="Search games…">
             </div>
-            <input type="text"
-                   placeholder="Search games..."
-                   class="w-full bg-gray-900/50 border border-gray-700 text-white text-sm rounded-full py-2 pl-10 pr-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-300 placeholder-gray-600">
-        </div>
-
-        <div class="flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
-            <a href="#" class="hover:text-white transition-colors duration-200">Download</a>
-            <a href="#" class="hover:text-white transition-colors duration-200">About</a> 
-            <a asp-controller="Admin" asp-action="Index" class="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition-all shadow-[0_0_10px_rgba(37,99,235,0.3)]">Account</a>
+            <button class="nav-dl-btn">↓ Download</button>
+            <div class="nav-acct-btn">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+            </div>
         </div>
     </nav>
+
 
     <div>
         @RenderBody()
     </div>
 
 
-    <footer class="mt-20 border-t border-gray-900 bg-black/30 py-12 px-8">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start">
-            <div class="mb-8 md:mb-0">
-                <h2 class="text-xl font-black italic mb-4">GameGarage</h2>
-                <div class="text-xs text-gray-500 space-y-2">
-                    <p>Contact us</p>
-                    <p>(+63) 900 000 000</p>
-                    <p>hello@gamegarage.com</p>
-                </div>
+    <!-- ═══ FOOTER ══════════════════════════════ -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="nav-logo" style="display:inline-flex">
+                    <div class="nav-logo-icon"><img src="/images/logo.svg" alt="Logo Game Garage" /></div>
+                    <span class="text-2xl font-black tracking-tighter italic text-white group-hover:text-blue-400 transition-colors">
+                        GAME GARAGE
+                    </span>
+                </a>
+                <p>Your universe of games. Curated, social, and always on — wherever you play.</p>
             </div>
-            <div class="grid grid-cols-2 gap-12 text-xs">
-                <div>
-                    <h4 class="font-bold text-gray-300 mb-4 uppercase">Company</h4>
-                    <ul class="space-y-2 text-gray-500">
-                        <li><a href="#">Terms & Conditions</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Career</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-gray-300 mb-4 uppercase">Download</h4>
-                    <ul class="space-y-2 text-gray-500">
-                        <li><a href="#">Windows</a></li>
-                        <li><a href="#">Linux</a></li>
-                        <li><a href="#">MacOS</a></li>
-                    </ul>
-                </div>
+            <div>
+                <div class="footer-col-title">Company</div>
+                <a href="#" class="footer-link">Terms &amp; Conditions</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Careers</a>
+                <a href="#" class="footer-link">Service</a>
+            </div>
+            <div>
+                <div class="footer-col-title">Download</div>
+                <a href="#" class="footer-link">Windows App</a>
+                <a href="#" class="footer-link">Linux App</a>
+                <a href="#" class="footer-link">macOS App</a>
+                <a href="#" class="footer-link">Mobile (Beta)</a>
+            </div>
+            <div>
+                <div class="footer-col-title">Contact</div>
+                <a href="#" class="footer-link">Chat with us</a>
+                <a href="#" class="footer-link">(+63) 943 1234 567</a>
+                <a href="#" class="footer-link">tim@memoir.com</a>
             </div>
         </div>
-        <div class="text-center text-[10px] text-gray-700 mt-12 border-t border-red-900 pt-8">
-            � 2026 GameGarage All Rights Reserved.
+        <div class="footer-bottom">
+            <div class="footer-copy">© 2026 Memoir. All rights reserved.</div>
+            <div class="footer-socials">
+                <div class="social-btn"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" /></svg></div>
+                <div class="social-btn"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg></div>
+                <div class="social-btn"><svg viewBox="0 0 24 24"><path d="M21 2H3v16h5v4l4-4h5l4-4V2zM11 11H9V9h2zm4 0h-2V9h2z" /></svg></div>
+            </div>
         </div>
     </footer>
 

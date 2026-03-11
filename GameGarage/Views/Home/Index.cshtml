@@ -3,97 +3,452 @@
     ViewBag.Title = "Game Garage";
 }
 
-<section class="max-w-7xl mx-auto mt-8 relative group overflow-hidden" id="hero-carousel">
-    <div class="flex transition-transform duration-700 ease-out gap-6"
-         id="carouselStage"
-         style="transform: translateX(0px);">
+<!-- ??? HERO ?????????????????????????????? -->
+<section class="hero">
+    <div class="hero-slide active slide-1" id="slide-1"></div>
+    <div class="hero-slide inactive slide-2" id="slide-2"></div>
+    <div class="hero-slide inactive slide-3" id="slide-3"></div>
+    <div class="hero-bg"></div>
 
-        @foreach (var game in Model.Slides ?? Enumerable.Empty<Game>())
-        {
-            <div class="carousel-item relative shrink-0 w-[75%] md:w-[70%] h-[450px] rounded-lg overflow-hidden border border-gray-800 bg-gray-900 transition-all duration-500">
-                <a asp-controller="Home" asp-action="App" asp-route-id="@game.Id">
-                    <img src="@game.HeaderImage"
-                         class="w-full h-full object-cover"
-                         alt="@game.Name" />
-
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
-                    <div class="absolute bottom-10 left-10">
-                        <h2 class="text-3xl font-bold uppercase italic tracking-tighter text-white">@game.Name</h2>
-                    </div>
-                </a>
+    <div class="hero-content">
+        <div class="hero-tag fade-in"><span></span> Featured Release</div>
+        <h1 class="hero-title fade-in delay-1">BLACK MYTH<br><em>WUKONG</em></h1>
+        <p class="hero-desc fade-in delay-2">Journey as the Destined One through a breathtaking world rooted in Chinese mythology. Face legendary beings and uncover a long-forgotten truth.</p>
+        <div class="hero-actions fade-in delay-3">
+            <button class="btn-hero-primary">
+                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none" /></svg>
+                Play Now — $49.99
+            </button>
+            <button class="btn-hero-ghost">Add to Wishlist</button>
+        </div>
+        <div class="hero-meta fade-in delay-4">
+            <div class="hero-meta-item">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="rgba(235,94,40,0.3)" stroke="#eb5e28" stroke-width="1.5" /></svg>
+                <strong>9.4</strong> Metacritic
             </div>
-        }
+            <div class="hero-meta-sep"></div>
+            <div class="hero-meta-item">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
+                <strong>2.4M</strong> Players
+            </div>
+            <div class="hero-meta-sep"></div>
+            <div class="hero-meta-item">
+                <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /></svg>
+                <strong>PC</strong> &amp; Console
+            </div>
+        </div>
     </div>
 
-    <button onclick="moveStage(-1)" class="absolute left-6 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-blue-600 text-white p-4 rounded-full z-30 opacity-0 group-hover:opacity-100 transition-opacity">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
-    </button>
-    <button onclick="moveStage(1)" class="absolute right-6 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-blue-600 text-white p-4 rounded-full z-30 opacity-0 group-hover:opacity-100 transition-opacity">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
-    </button>
+    <!-- Slide thumbnails -->
+    <div class="hero-slides-nav">
+        <div class="slide-thumb active" onclick="goSlide(0)">
+            <div class="slide-thumb-inner slide-t1">??</div>
+        </div>
+        <div class="slide-thumb" onclick="goSlide(1)">
+            <div class="slide-thumb-inner slide-t2">???</div>
+        </div>
+        <div class="slide-thumb" onclick="goSlide(2)">
+            <div class="slide-thumb-inner slide-t3">??</div>
+        </div>
+    </div>
+
+    <div class="scroll-hint">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+        Scroll
+    </div>
 </section>
 
-<main class="max-w-7xl mx-auto px-6 py-12">
-    <h2 class="text-3xl font-black mb-10 tracking-tighter">FEATURED GAMES</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
-        @foreach (var game in @Model.Features ?? Enumerable.Empty<Game>())
-        {
-            <a asp-controller="Home" asp-action="App" asp-route-id="@game.Id" class="group block">
-                <div class="relative aspect-[3/4] bg-gray-900 rounded-lg overflow-hidden border border-gray-800 group-hover:border-blue-500 transition-all">
-                    <img src="@game.HeaderImage" alt="@game.Name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
-                <h3 class="mt-4 font-bold text-lg group-hover:text-blue-400 transition-colors">@game.Name</h3>
-            </a>
-        }
-    </div>
+<!-- ??? GENRE STRIP ?????????????????????? -->
+<div class="genre-strip">
+    <div class="genre-tab active">All Games</div>
+    <div class="genre-tab">Action RPG</div>
+    <div class="genre-tab">Open World</div>
+    <div class="genre-tab">Souls-like</div>
+    <div class="genre-tab">Simulation</div>
+    <div class="genre-tab">Fighting</div>
+    <div class="genre-tab">Strategy</div>
+    <div class="genre-tab">Horror</div>
+    <div class="genre-tab">Racing</div>
+    <div class="genre-tab">Sports</div>
+    <div class="genre-tab">Indie</div>
+</div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-        <partial name="_GameList" model="Model.NewRelease" view-data='new ViewDataDictionary(ViewData) { { "Section", "New Releases" } }' />
-        <partial name="_GameList" model="Model.TopPlayerRated" view-data='new ViewDataDictionary(ViewData) { { "Section", "Top Player Rated" } }' />
-        <partial name="_GameList" model="Model.MostPlayed" view-data='new ViewDataDictionary(ViewData) { { "Section", "Most Played" } }' />
+<!-- ??? FEATURED GAMES ??????????????????? -->
+<section>
+    <div class="section-inner">
+        <div class="section-header">
+            <div>
+                <div class="section-eyebrow">Handpicked for you</div>
+                <div class="section-title">Featured Games</div>
+            </div>
+            <a href="#" class="section-link">Browse all games ?</a>
+        </div>
+
+        <div class="featured-grid">
+
+            <!-- Hero card -->
+            <div class="game-card hero-card">
+                <div class="card-badge badge-hot">?? Trending</div>
+                <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
+                <div class="card-art art-wukong" style="min-height:380px; font-size:110px;">??</div>
+                <div class="card-body">
+                    <div class="card-title">Black Myth: Wukong</div>
+                    <div class="card-genre">Action RPG · Mythical Adventure</div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-price">$49.99</div>
+                    <div class="card-rating">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+                        9.4
+                    </div>
+                </div>
+            </div>
+
+            <!-- Small cards row 1 -->
+            <div class="game-card">
+                <div class="card-badge badge-new">New</div>
+                <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
+                <div class="card-art art-gta">???</div>
+                <div class="card-body">
+                    <div class="card-title">Grand Theft Auto Online</div>
+                    <div class="card-genre">Open World · Action</div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-price">Free <span class="was">$29.99</span></div>
+                    <div class="card-rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>8.8</div>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="card-badge badge-sale">-30% OFF</div>
+                <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
+                <div class="card-art art-elden">??</div>
+                <div class="card-body">
+                    <div class="card-title">Elden Ring</div>
+                    <div class="card-genre">Souls-like · Open World</div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-price">$41.99 <span class="was">$59.99</span></div>
+                    <div class="card-rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>9.6</div>
+                </div>
+            </div>
+
+            <!-- Small cards row 2 -->
+            <div class="game-card">
+                <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
+                <div class="card-art art-stardew">??</div>
+                <div class="card-body">
+                    <div class="card-title">Stardew Valley</div>
+                    <div class="card-genre">Simulation · Farming</div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-price">$14.99</div>
+                    <div class="card-rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>9.3</div>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="card-badge badge-new">New</div>
+                <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
+                <div class="card-art art-dragon">??</div>
+                <div class="card-body">
+                    <div class="card-title">Dragon Ball: Sparking Zero</div>
+                    <div class="card-genre">Fighting · Anime</div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-price">$59.99</div>
+                    <div class="card-rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>8.6</div>
+                </div>
+            </div>
+
+        </div>
     </div>
-</main>
+</section>
+
+<!-- ??? NEW RELEASES + TOP RATED + MOST PLAYED ?? -->
+<section class="lists-section">
+    <div class="lists-grid">
+
+        <!-- NEW RELEASES -->
+        <div class="list-col">
+            <div class="list-col-header">
+                <div class="list-col-title">
+                    <div class="col-icon icon-new">??</div>
+                    New Releases
+                </div>
+                <a href="#" class="section-link" style="font-size:11.5px">See all</a>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">01</div>
+                <div class="list-item-thumb art-war" style="border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Space Marine II</div>
+                    <div class="list-item-sub">Sci-fi · Action · For the Emperor!</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price">$59.99</div>
+                    <div class="list-item-badge lb-paid">Released</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">02</div>
+                <div class="list-item-thumb art-dragon" style="border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Sonic x Shadow Generations</div>
+                    <div class="list-item-sub">Platformer · Shadow's returned!</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price">$49.99</div>
+                    <div class="list-item-badge lb-paid">Released</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">03</div>
+                <div class="list-item-thumb art-dragon" style="border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Dragon Ball: Sparking Zero</div>
+                    <div class="list-item-sub">Fighting · High-energy combat!</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price">$59.99</div>
+                    <div class="list-item-badge lb-paid">Released</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">04</div>
+                <div class="list-item-thumb art-stardew" style="border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Goat Simulator: Remastered</div>
+                    <div class="list-item-sub">Chaos · The GOAT is back!</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price sale">$19.99</div>
+                    <div class="list-item-badge lb-sale">-20%</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">05</div>
+                <div class="list-item-thumb art-gta" style="border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Planet Coaster 2</div>
+                    <div class="list-item-sub">Simulation · Build your park</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price">$44.99</div>
+                    <div class="list-item-badge lb-paid">Released</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOP PLAYER RATED -->
+        <div class="list-col">
+            <div class="list-col-header">
+                <div class="list-col-title">
+                    <div class="col-icon icon-top">?</div>
+                    Top Player Rated
+                </div>
+                <a href="#" class="section-link" style="font-size:11.5px">See all</a>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">01</div>
+                <div class="list-item-thumb" style="background:linear-gradient(135deg,#04101e,#020509);border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Warframe</div>
+                    <div class="list-item-sub">Sci-fi · Surviving race</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price free">Free</div>
+                    <div class="list-item-badge lb-free">F2P</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">02</div>
+                <div class="list-item-thumb art-war" style="border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Space Marine II</div>
+                    <div class="list-item-sub">Action · For the Emperor!</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price">$59.99</div>
+                    <div class="list-item-badge lb-paid">9.1 ?</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">03</div>
+                <div class="list-item-thumb" style="background:linear-gradient(135deg,#0a0505,#020202);border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Dota 2</div>
+                    <div class="list-item-sub">MOBA · Strategic team battle</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price free">Free</div>
+                    <div class="list-item-badge lb-free">F2P</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">04</div>
+                <div class="list-item-thumb" style="background:linear-gradient(135deg,#040c06,#020509);border-radius:9px">???</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Counter-Strike 2</div>
+                    <div class="list-item-sub">FPS · Tactical shooter</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price free">Free</div>
+                    <div class="list-item-badge lb-free">F2P</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">05</div>
+                <div class="list-item-thumb art-elden" style="border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Elden Ring</div>
+                    <div class="list-item-sub">Souls-like · Open-world</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price sale">$41.99</div>
+                    <div class="list-item-badge lb-sale">-30%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOST PLAYED -->
+        <div class="list-col">
+            <div class="list-col-header">
+                <div class="list-col-title">
+                    <div class="col-icon icon-hot">??</div>
+                    Most Played
+                </div>
+                <a href="#" class="section-link" style="font-size:11.5px">See all</a>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">01</div>
+                <div class="list-item-thumb" style="background:linear-gradient(135deg,#0d1a04,#030702);border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Minecraft</div>
+                    <div class="list-item-sub">Sandbox · Mine. Craft. Survive.</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price">$29.99</div>
+                    <div class="list-item-badge lb-paid">142M ?</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">02</div>
+                <div class="list-item-thumb" style="background:linear-gradient(135deg,#100404,#060101);border-radius:9px">???</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Team Fortress 2</div>
+                    <div class="list-item-sub">FPS · RED vs BLU</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price free">Free</div>
+                    <div class="list-item-badge lb-free">F2P</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">03</div>
+                <div class="list-item-thumb art-dragon" style="border-radius:9px">?</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Zenless Zone Zero</div>
+                    <div class="list-item-sub">Action · Stunning animations</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price free">Free</div>
+                    <div class="list-item-badge lb-free">F2P</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">04</div>
+                <div class="list-item-thumb art-gta" style="border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">War Thunder</div>
+                    <div class="list-item-sub">Strategy · Vehicles of war</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price free">Free</div>
+                    <div class="list-item-badge lb-free">F2P</div>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="list-rank">05</div>
+                <div class="list-item-thumb art-war" style="border-radius:9px">??</div>
+                <div class="list-item-info">
+                    <div class="list-item-name">Gundam Battle Op. 2</div>
+                    <div class="list-item-sub">Action · Fight in a Gundam</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price free">Free</div>
+                    <div class="list-item-badge lb-free">F2P</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ??? PROMO BANNER ??????????????????????? -->
+<div class="promo-banner">
+    <div class="promo-text">
+        <div class="promo-eyebrow">Spring Sale — Ends March 20</div>
+        <div class="promo-title">UP TO <em>70% OFF</em><br>EPIC TITLES</div>
+        <p class="promo-desc">Over 400 games deeply discounted. Don't miss out — the biggest sale of the season is live now.</p>
+        <div class="promo-actions">
+            <button class="btn-hero-primary" style="font-size:12.5px;padding:11px 22px">
+                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none" /></svg>
+                Browse Sale
+            </button>
+            <button class="btn-hero-ghost" style="font-size:12.5px;padding:11px 20px">Set Reminder</button>
+        </div>
+    </div>
+    <div class="promo-big-emoji">??</div>
+</div>
+
 
 <script>
-    let currentIndex = 0;
-    const stage = document.getElementById('carouselStage');
-    const items = document.querySelectorAll('.carousel-item');
-    const container = document.getElementById('hero-carousel');
+    // Hero slideshow
+    const slides = ['slide-1','slide-2','slide-3'];
+    const thumbs = document.querySelectorAll('.slide-thumb');
+    const heroTitles = [
+      { tag:'Featured Release', title:'BLACK MYTH\n<em>WUKONG</em>', desc:'Journey as the Destined One through a breathtaking world rooted in Chinese mythology.', price:'$49.99' },
+      { tag:'Most Popular', title:'GRAND THEFT\n<em>ONLINE</em>', desc:'The ever-evolving online world of Los Santos. Hundreds of missions, heists, and more.', price:'Free' },
+      { tag:'Fan Favourite', title:'STARDEW\n<em>VALLEY</em>', desc:'Build the farm of your dreams, forge friendships, and uncover the mysteries of Pelican Town.', price:'$14.99' }
+    ];
+    let current = 0;
 
-    function updateStage() {
-        const containerWidth = container.offsetWidth;
-        const itemWidth = items[0].offsetWidth;
-        const gap = 24; // This must match your Tailwind 'gap-6' (6 * 4px)
-
-        // Calculate how much to shift to put the currentIndex in the center
-        // Formula: (ContainerWidth / 2) - (ItemWidth / 2) - (Total width of previous items + gaps)
-        const centerOffset = (containerWidth / 2) - (itemWidth / 2);
-        const scrollPosition = centerOffset - (currentIndex * (itemWidth + gap));
-
-        stage.style.transform = `translateX(${scrollPosition}px)`;
-
-        // Apply the "Dimming" effect to side images like the reference image
-        items.forEach((item, i) => {
-            if (i === currentIndex) {
-                item.style.opacity = "1";
-                item.style.filter = "brightness(100%)";
-                item.style.transform = "scale(1)";
-            } else {
-                item.style.opacity = "0.4";
-                item.style.filter = "brightness(50%)";
-                item.style.transform = "scale(0.95)";
-            }
-        });
+    function goSlide(idx) {
+      document.getElementById(slides[current]).className = 'hero-slide inactive ' + 'slide-' + (current+1);
+      thumbs[current].classList.remove('active');
+      current = idx;
+      document.getElementById(slides[current]).className = 'hero-slide active ' + 'slide-' + (current+1);
+      thumbs[current].classList.add('active');
+      const t = heroTitles[current];
+      document.querySelector('.hero-tag').innerHTML = '<span></span> ' + t.tag;
+      document.querySelector('.hero-title').innerHTML = t.title.replace('\n','<br>');
+      document.querySelector('.hero-desc').textContent = t.desc;
+      document.querySelector('.btn-hero-primary').innerHTML = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:#fff"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none"/></svg> Play Now — ${t.price}`;
     }
 
-    function moveStage(direction) {
-        currentIndex = (currentIndex + direction + items.length) % items.length;
-        updateStage();
-    }
+    setInterval(() => goSlide((current + 1) % slides.length), 5000);
 
-    // Handle window resizing to keep it centered
-    window.addEventListener('resize', updateStage);
-
-    // Initial center
-    updateStage();
+    // Genre tab switching
+    document.querySelectorAll('.genre-tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.genre-tab').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+      });
+    });
 </script>
