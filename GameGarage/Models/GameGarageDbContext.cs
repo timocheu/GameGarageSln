@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace GameGarage.Models;
 
 public partial class GameGarageDbContext : DbContext
 {
-    public GameGarageDbContext(DbContextOptions<GameGarageDbContext> options) 
+    public GameGarageDbContext(DbContextOptions<GameGarageDbContext> options)
         : base(options) { }
 
     public DbSet<Game> Games { get; set; }
@@ -40,15 +41,25 @@ public partial class GameGarageDbContext : DbContext
             entity.Property(e => e.HeaderImage).HasColumnName("Header image");
 
             entity.Property(e => e.Screenshots)
-            .HasConversion(e => 
-            string.Join(',', e ?? Enumerable.Empty<string>()), 
-            e => e.Split(',', StringSplitOptions.RemoveEmptyEntries))
+            .HasConversion(
+                e => string.Join(',', e ?? Enumerable.Empty<string>()),
+                e => e.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
+                new ValueComparer<List<string>>(
+                    (c1, c2) =>
+                    (c1 ?? Enumerable.Empty<string>()).SequenceEqual(c2 ?? Enumerable.Empty<string>()),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c.ToList()))
             .HasColumnName("Screenshots");
 
             entity.Property(e => e.Tags)
-            .HasConversion(e => 
-            string.Join(',', e ?? Enumerable.Empty<string>()), 
-            e => e.Split(',', StringSplitOptions.RemoveEmptyEntries))
+            .HasConversion(
+                e => string.Join(',', e ?? Enumerable.Empty<string>()),
+                e => e.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
+                new ValueComparer<List<string>>(
+                    (c1, c2) =>
+                    (c1 ?? Enumerable.Empty<string>()).SequenceEqual(c2 ?? Enumerable.Empty<string>()),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c.ToList()))
             .HasColumnName("Tags");
 
             entity.Property(e => e.Linux)
