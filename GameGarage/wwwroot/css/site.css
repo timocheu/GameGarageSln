@@ -348,6 +348,13 @@ nav {
     position: relative;
     z-index: 2;
     max-width: 620px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ffffff75;
+    background: rgba(0, 0, 0, 10.02);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.67) 25%, rgba(255, 255, 255, 0) 50%);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .hero-tag {

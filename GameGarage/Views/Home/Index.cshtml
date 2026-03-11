@@ -3,7 +3,7 @@
     ViewBag.Title = "Game Garage";
 }
 
-<!-- ??? HERO ?????????????????????????????? -->
+<!-- HERO  -->
 <section class="hero">
     <div class="hero-slide active slide-1" id="slide-1"></div>
     <div class="hero-slide inactive slide-2" id="slide-2"></div>
@@ -423,9 +423,9 @@
     const slides = ['slide-1','slide-2','slide-3'];
     const thumbs = document.querySelectorAll('.slide-thumb');
     const heroTitles = [
-      { tag:'Featured Release', title:'BLACK MYTH\n<em>WUKONG</em>', desc:'Journey as the Destined One through a breathtaking world rooted in Chinese mythology.', price:'$49.99' },
-      { tag:'Most Popular', title:'GRAND THEFT\n<em>ONLINE</em>', desc:'The ever-evolving online world of Los Santos. Hundreds of missions, heists, and more.', price:'Free' },
-      { tag:'Fan Favourite', title:'STARDEW\n<em>VALLEY</em>', desc:'Build the farm of your dreams, forge friendships, and uncover the mysteries of Pelican Town.', price:'$14.99' }
+      { tag:'Featured Release', title:'BLACK MYTH\n<em>WUKONG</em>', desc:'Journey as the Destined One through a breathtaking world rooted in Chinese mythology.', price:'$49.99', image: 'https://preview.redd.it/black-myth-wukong-8k-resolution-wallpaper-v0-kyuamtohf8gd1.jpg?width=3840&format=pjpg&auto=webp&s=77ea2ce3c89e94f49ab717e763f378137bec7dd7'},
+      { tag:'Most Popular', title:'GRAND THEFT\n<em>ONLINE</em>', desc:'The ever-evolving online world of Los Santos. Hundreds of missions, heists, and more.', price:'Free', image: 'https://4kwallpapers.com/images/wallpapers/grand-theft-auto-v-2560x1440-10734.jpg' },
+      { tag:'Fan Favourite', title:'READY OR\n<em>NOT</em>', desc:'Make a crazy comeback. Through team operation undermining the enemy.', price:'$49.99', image: 'https://4kwallpapers.com/images/wallpapers/swat-ready-or-not-3840x2160-23256.jpg' }
     ];
     let current = 0;
 
@@ -439,6 +439,10 @@
       document.querySelector('.hero-tag').innerHTML = '<span></span> ' + t.tag;
       document.querySelector('.hero-title').innerHTML = t.title.replace('\n','<br>');
       document.querySelector('.hero-desc').textContent = t.desc;
+      const hero = document.querySelector('.hero-bg');
+
+      hero.style.backgroundImage = `url('${t.image}')`;
+      hero.style.backgroundSize = "cover"; // Ensures it fits nicely
       document.querySelector('.btn-hero-primary').innerHTML = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:#fff"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none"/></svg> Play Now — ${t.price}`;
     }
 
