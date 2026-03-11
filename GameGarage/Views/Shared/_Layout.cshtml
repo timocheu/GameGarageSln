@@ -2,89 +2,91 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>@ViewBag.Title</title>
-	<script src="https://cdn.tailwindcss.com"></script>
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="icon" type="image/svg" href="/images/logo.svg">
-	<script>
-		tailwind.config = {
-		  theme: {
-			extend: {
-			  fontFamily: {
-				sans: ['Inter', 'ui-sans-serif', 'system-ui'],
-			  },
-			}
-		  }
-		}
-	</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="icon" type="image/svg" href="/images/logo.svg">
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+              },
+            }
+          }
+        }
+    </script>
 </head>
 
 <body class="font-sans antialiased">
-	@* Navigation bar *@
-	<nav class="flex items-center justify-between px-8 py-4 border-b border-gray-800">
-		<div class="flex items-center gap-3">
-			<a href="/"><img src="~/images/logo.svg" alt="Game Logo"/></a>
-			<a href="/" class="text-2xl font-black tracking-tighter italic">GAME GARAGE</a>
-		</div>
-		<div class="relative w-full max-w-md">
-			<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-				<svg class="h-4 w-4 text-white-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-				</svg>
-			</div>
+    @* Navigation bar *@
+    <nav class="flex items-center justify-between px-8 py-5 bg-[#020610] border-b border-gray-800/50 backdrop-blur-sm sticky top-0 z-50">
+        <div class="flex items-center gap-3 group cursor-pointer">
+            <img src="~/images/logo.svg" alt="Game Logo" class="w-8 h-8" />
+            <span class="text-2xl font-black tracking-tighter italic text-white group-hover:text-blue-400 transition-colors">
+                GAME GARAGE
+            </span>
+        </div>
 
-			<input type="text"
-				   placeholder="Search"
-				   class="block w-full bg-[#020b18] border-2 border-white-700 font-bold text-white text-sm rounded-lg py-1.5 pl-10 pr-3
-                  placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors duration-200">
-		</div>
-		<div class="flex items-center space-x-6 text-xs font-medium uppercase tracking-widest text-gray-300">
-			<a href="#" class="hover:text-white">Download</a>
-			<a href="#" class="hover:text-white">About</a>
-			<a href="#" class="hover:text-white">Account</a>
-		</div>
-	</nav>
+        <div class="relative w-full max-w-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-blue-400">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+            <input type="text"
+                   placeholder="Search games..."
+                   class="w-full bg-gray-900/50 border border-gray-700 text-white text-sm rounded-full py-2 pl-10 pr-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-300 placeholder-gray-600">
+        </div>
 
-	<div>
-		@RenderBody()
-	</div>
+        <div class="flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
+            <a href="#" class="hover:text-white transition-colors duration-200">Download</a>
+            <a href="#" class="hover:text-white transition-colors duration-200">About</a> 
+            <a asp-controller="Admin" asp-action="Index" class="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition-all shadow-[0_0_10px_rgba(37,99,235,0.3)]">Account</a>
+        </div>
+    </nav>
+
+    <div>
+        @RenderBody()
+    </div>
 
 
-	<footer class="mt-20 border-t border-gray-900 bg-black/30 py-12 px-8">
-		<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start">
-			<div class="mb-8 md:mb-0">
-				<h2 class="text-xl font-black italic mb-4">GameGarage</h2>
-				<div class="text-xs text-gray-500 space-y-2">
-					<p>Contact us</p>
-					<p>(+63) 900 000 000</p>
-					<p>hello@gamegarage.com</p>
-				</div>
-			</div>
-			<div class="grid grid-cols-2 gap-12 text-xs">
-				<div>
-					<h4 class="font-bold text-gray-300 mb-4 uppercase">Company</h4>
-					<ul class="space-y-2 text-gray-500">
-						<li><a href="#">Terms & Conditions</a></li>
-						<li><a href="#">Privacy Policy</a></li>
-						<li><a href="#">Career</a></li>
-					</ul>
-				</div>
-				<div>
-					<h4 class="font-bold text-gray-300 mb-4 uppercase">Download</h4>
-					<ul class="space-y-2 text-gray-500">
-						<li><a href="#">Windows</a></li>
-						<li><a href="#">Linux</a></li>
-						<li><a href="#">MacOS</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="text-center text-[10px] text-gray-700 mt-12 border-t border-red-900 pt-8">
-			� 2026 GameGarage All Rights Reserved.
-		</div>
-	</footer>
+    <footer class="mt-20 border-t border-gray-900 bg-black/30 py-12 px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start">
+            <div class="mb-8 md:mb-0">
+                <h2 class="text-xl font-black italic mb-4">GameGarage</h2>
+                <div class="text-xs text-gray-500 space-y-2">
+                    <p>Contact us</p>
+                    <p>(+63) 900 000 000</p>
+                    <p>hello@gamegarage.com</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-12 text-xs">
+                <div>
+                    <h4 class="font-bold text-gray-300 mb-4 uppercase">Company</h4>
+                    <ul class="space-y-2 text-gray-500">
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Career</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-300 mb-4 uppercase">Download</h4>
+                    <ul class="space-y-2 text-gray-500">
+                        <li><a href="#">Windows</a></li>
+                        <li><a href="#">Linux</a></li>
+                        <li><a href="#">MacOS</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-[10px] text-gray-700 mt-12 border-t border-red-900 pt-8">
+            � 2026 GameGarage All Rights Reserved.
+        </div>
+    </footer>
 
 </body>
 </html>

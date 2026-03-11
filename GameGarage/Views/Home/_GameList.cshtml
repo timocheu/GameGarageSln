@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Game>
+@{
+    var title = ViewData["Section"] as string;
+}
+
+<div class="space-y-6">
+    <h3 class="text-sm font-black text-gray-500 uppercase tracking-widest">@title</h3>
+    @foreach (var game in Model ?? Enumerable.Empty<Game>())
+    {
+        <a asp-controller="Home" asp-action="App" asp-route-id="@game.Id" class="flex items-center gap-4 group">
+            <div class="w-16 h-20 bg-gray-800 rounded overflow-hidden flex-shrink-0">
+                <img src="@game.HeaderImage" alt="@game.Name" class="w-full h-full object-cover" />
+            </div>
+            <div>
+                <h4 class="font-bold group-hover:text-blue-400 transition-colors">@game.Name</h4>
+                <span class="text-[10px] bg-gray-800 text-gray-300 px-2 py-0.5 rounded-full">
+                    @((game.Price == 0) ? "Free" : game.Price.ToString("C"))
+                </span>
+            </div>
+        </a>
+    }
+</div>

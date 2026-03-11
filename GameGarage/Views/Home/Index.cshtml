@@ -33,106 +33,24 @@
     </button>
 </section>
 
-<main class="max-w-7xl mx-auto px-4 py-12">
-    <h2 class="text-2xl font-bold mb-8 tracking-wide">FEATURED GAMES</h2>
-
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
+<main class="max-w-7xl mx-auto px-6 py-12">
+    <h2 class="text-3xl font-black mb-10 tracking-tighter">FEATURED GAMES</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
         @foreach (var game in @Model.Features ?? Enumerable.Empty<Game>())
         {
-            <div class="group cursor-pointer">
-                <a asp-controller="Home" asp-action="App" asp-route-id="@game.Id">
-                    <div class="aspect-[3/4] bg-[#0a1628] rounded mb-3 overflow-hidden border border-gray-800 group-hover:border-blue-500 transition-all duration-300 flex items-center justify-center">
-
-                        <img src="@game.HeaderImage"
-                             alt="@game.Name"
-                             class="w-sm h-full object-cover object-center shadow-inner" />
-
-                    </div>
-                    <h3 class="inter font-bold text-xl leading-tight group-hover:text-blue-400">@game.Name</h3>
-                    <p class="text-[11px] text-gray-500 mt-1 italic text-sm">
-                        @String.Join(", ", (game.Tags ?? Enumerable.Empty<string>()).Take(3))
-                    </p>
-                </a>
-            </div>
+            <a asp-controller="Home" asp-action="App" asp-route-id="@game.Id" class="group block">
+                <div class="relative aspect-[3/4] bg-gray-900 rounded-lg overflow-hidden border border-gray-800 group-hover:border-blue-500 transition-all">
+                    <img src="@game.HeaderImage" alt="@game.Name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <h3 class="mt-4 font-bold text-lg group-hover:text-blue-400 transition-colors">@game.Name</h3>
+            </a>
         }
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-
-        <div class="space-y-4">
-            <h3 class="text-sm font-bold text-gray-400 mb-6 uppercase tracking-widest">New Releases</h3>
-            @foreach (var game in @Model.NewRelease ?? Enumerable.Empty<Game>())
-            {
-                <a asp-controller="Home" asp-action="App" asp-route-id="@game.Id">
-                    <div class="flex items-center space-x-4 p-2 hover:bg-white/5 rounded transition cursor-pointer">
-                        <div class="w-20 h-24 bg-gray-800 rounded flex-shrink-0 flex items-center justify-center border border-gray-700">
-                            <img src="@game.HeaderImage"
-                                 alt="@game.Name"
-                                 class="w-full h-full object-cover object-center shadow-inner" />
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-bold">@game.Name</h4>
-                            <span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">
-                                @((game.Price == 0) ? "Free-2-Play" : game.Price.ToString("C"))
-                            </span>
-                            <p class="text-xs text-gray-500 mt-1">
-                                @String.Join(", ", (game.Tags ?? Enumerable.Empty<string>()).Take(3))
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            }
-        </div>
-
-        <div class="space-y-4">
-            <h3 class="text-sm font-bold text-gray-400 mb-6 uppercase tracking-widest">Top Player Rated</h3>
-            @foreach (var game in @Model.TopPlayerRated ?? Enumerable.Empty<Game>())
-            {
-                <a asp-controller="Home" asp-action="App" asp-route-id="@game.Id">
-                    <div class="flex items-center space-x-4 p-2 hover:bg-white/5 rounded transition cursor-pointer">
-                        <div class="w-20 h-24 bg-gray-800 rounded flex-shrink-0 flex items-center justify-center border border-gray-700">
-                            <img src="@game.HeaderImage"
-                                 alt="@game.Name"
-                                 class="w-full h-full object-cover object-center shadow-inner" />
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-bold">@game.Name</h4>
-                            <span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">
-                                @((game.Price == 0) ? "Free-2-Play" : game.Price.ToString("C"))
-                            </span>
-                            <p class="text-xs text-gray-500 mt-1">
-                                @String.Join(", ", (game.Tags ?? Enumerable.Empty<string>()).Take(3))
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            }
-        </div>
-
-        <div class="space-y-4">
-            <h3 class="text-sm font-bold text-gray-400 mb-6 uppercase tracking-widest">Most Played</h3>
-            @foreach (var game in @Model.MostPlayed ?? Enumerable.Empty<Game>())
-            {
-                <a asp-controller="Home" asp-action="App" asp-route-id="@game.Id">
-                    <div class="flex items-center space-x-4 p-2 hover:bg-white/5 rounded transition cursor-pointer">
-                        <div class="w-20 h-24 bg-gray-800 rounded flex-shrink-0 flex items-center justify-center border border-gray-700">
-                            <img src="@game.HeaderImage"
-                                 alt="@game.Name"
-                                 class="w-full h-full object-cover object-center shadow-inner" />
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-bold">@game.Name</h4>
-                            <span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded font-bold">
-                                @((game.Price == 0) ? "Free-2-Play" : game.Price.ToString("C"))
-                            </span>
-                            <p class="text-xs text-gray-500 mt-1">
-                                @String.Join(", ", (game.Tags ?? Enumerable.Empty<string>()).Take(3))
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            }
-        </div>
+        <partial name="_GameList" model="Model.NewRelease" view-data='new ViewDataDictionary(ViewData) { { "Section", "New Releases" } }' />
+        <partial name="_GameList" model="Model.TopPlayerRated" view-data='new ViewDataDictionary(ViewData) { { "Section", "Top Player Rated" } }' />
+        <partial name="_GameList" model="Model.MostPlayed" view-data='new ViewDataDictionary(ViewData) { { "Section", "Most Played" } }' />
     </div>
 </main>
 
