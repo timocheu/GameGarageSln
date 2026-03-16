@@ -42,13 +42,13 @@
     <!-- Slide thumbnails -->
     <div class="hero-slides-nav">
         <div class="slide-thumb active" onclick="goSlide(0)">
-            <div class="slide-thumb-inner slide-t1">??</div>
+            <div class="slide-thumb-inner slide-t1">Wukong</div>
         </div>
         <div class="slide-thumb" onclick="goSlide(1)">
-            <div class="slide-thumb-inner slide-t2">???</div>
+            <div class="slide-thumb-inner slide-t2">GTA</div>
         </div>
         <div class="slide-thumb" onclick="goSlide(2)">
-            <div class="slide-thumb-inner slide-t3">??</div>
+            <div class="slide-thumb-inner slide-t3">Stardew</div>
         </div>
     </div>
 
@@ -58,7 +58,7 @@
     </div>
 </section>
 
-<!-- ??? GENRE STRIP ?????????????????????? -->
+<!--  GENRE STRIP -->
 <div class="genre-strip">
     <div class="genre-tab active">All Games</div>
     <div class="genre-tab">Action RPG</div>
@@ -80,233 +80,10 @@
 <section class="lists-section">
     <div class="lists-grid">
 
-        <!-- NEW RELEASES -->
-        <div class="list-col">
-            <div class="list-col-header">
-                <div class="list-col-title">
-                    <div class="col-icon icon-new">??</div>
-                    New Releases
-                </div>
-                <a href="#" class="section-link" style="font-size:11.5px">See all</a>
-            </div>
+        <partial name="_GameList" model="Model.NewRelease" view-data='new ViewDataDictionary(ViewData) { { "Section", "New Releases" } }' />
+        <partial name="_GameList" model="Model.TopPlayerRated" view-data='new ViewDataDictionary(ViewData) { { "Section", "Top Player Rated" } }' />
+        <partial name="_GameList" model="Model.MostPlayed" view-data='new ViewDataDictionary(ViewData) { { "Section", "Most Played" } }' />
 
-            <div class="list-item">
-                <div class="list-rank">01</div>
-                <div class="list-item-thumb art-war" style="border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Space Marine II</div>
-                    <div class="list-item-sub">Sci-fi · Action · For the Emperor!</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price">$59.99</div>
-                    <div class="list-item-badge lb-paid">Released</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">02</div>
-                <div class="list-item-thumb art-dragon" style="border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Sonic x Shadow Generations</div>
-                    <div class="list-item-sub">Platformer · Shadow's returned!</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price">$49.99</div>
-                    <div class="list-item-badge lb-paid">Released</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">03</div>
-                <div class="list-item-thumb art-dragon" style="border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Dragon Ball: Sparking Zero</div>
-                    <div class="list-item-sub">Fighting · High-energy combat!</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price">$59.99</div>
-                    <div class="list-item-badge lb-paid">Released</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">04</div>
-                <div class="list-item-thumb art-stardew" style="border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Goat Simulator: Remastered</div>
-                    <div class="list-item-sub">Chaos · The GOAT is back!</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price sale">$19.99</div>
-                    <div class="list-item-badge lb-sale">-20%</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">05</div>
-                <div class="list-item-thumb art-gta" style="border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Planet Coaster 2</div>
-                    <div class="list-item-sub">Simulation · Build your park</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price">$44.99</div>
-                    <div class="list-item-badge lb-paid">Released</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TOP PLAYER RATED -->
-        <div class="list-col">
-            <div class="list-col-header">
-                <div class="list-col-title">
-                    <div class="col-icon icon-top">?</div>
-                    Top Player Rated
-                </div>
-                <a href="#" class="section-link" style="font-size:11.5px">See all</a>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">01</div>
-                <div class="list-item-thumb" style="background:linear-gradient(135deg,#04101e,#020509);border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Warframe</div>
-                    <div class="list-item-sub">Sci-fi · Surviving race</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price free">Free</div>
-                    <div class="list-item-badge lb-free">F2P</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">02</div>
-                <div class="list-item-thumb art-war" style="border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Space Marine II</div>
-                    <div class="list-item-sub">Action · For the Emperor!</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price">$59.99</div>
-                    <div class="list-item-badge lb-paid">9.1 ?</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">03</div>
-                <div class="list-item-thumb" style="background:linear-gradient(135deg,#0a0505,#020202);border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Dota 2</div>
-                    <div class="list-item-sub">MOBA · Strategic team battle</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price free">Free</div>
-                    <div class="list-item-badge lb-free">F2P</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">04</div>
-                <div class="list-item-thumb" style="background:linear-gradient(135deg,#040c06,#020509);border-radius:9px">???</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Counter-Strike 2</div>
-                    <div class="list-item-sub">FPS · Tactical shooter</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price free">Free</div>
-                    <div class="list-item-badge lb-free">F2P</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">05</div>
-                <div class="list-item-thumb art-elden" style="border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Elden Ring</div>
-                    <div class="list-item-sub">Souls-like · Open-world</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price sale">$41.99</div>
-                    <div class="list-item-badge lb-sale">-30%</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MOST PLAYED -->
-        <div class="list-col">
-            <div class="list-col-header">
-                <div class="list-col-title">
-                    <div class="col-icon icon-hot">??</div>
-                    Most Played
-                </div>
-                <a href="#" class="section-link" style="font-size:11.5px">See all</a>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">01</div>
-                <div class="list-item-thumb" style="background:linear-gradient(135deg,#0d1a04,#030702);border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Minecraft</div>
-                    <div class="list-item-sub">Sandbox · Mine. Craft. Survive.</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price">$29.99</div>
-                    <div class="list-item-badge lb-paid">142M ?</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">02</div>
-                <div class="list-item-thumb" style="background:linear-gradient(135deg,#100404,#060101);border-radius:9px">???</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Team Fortress 2</div>
-                    <div class="list-item-sub">FPS · RED vs BLU</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price free">Free</div>
-                    <div class="list-item-badge lb-free">F2P</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">03</div>
-                <div class="list-item-thumb art-dragon" style="border-radius:9px">?</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Zenless Zone Zero</div>
-                    <div class="list-item-sub">Action · Stunning animations</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price free">Free</div>
-                    <div class="list-item-badge lb-free">F2P</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">04</div>
-                <div class="list-item-thumb art-gta" style="border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">War Thunder</div>
-                    <div class="list-item-sub">Strategy · Vehicles of war</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price free">Free</div>
-                    <div class="list-item-badge lb-free">F2P</div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="list-rank">05</div>
-                <div class="list-item-thumb art-war" style="border-radius:9px">??</div>
-                <div class="list-item-info">
-                    <div class="list-item-name">Gundam Battle Op. 2</div>
-                    <div class="list-item-sub">Action · Fight in a Gundam</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price free">Free</div>
-                    <div class="list-item-badge lb-free">F2P</div>
-                </div>
-            </div>
-        </div>
 
     </div>
 </section>
@@ -325,7 +102,6 @@
             <button class="btn-hero-ghost" style="font-size:12.5px;padding:11px 20px">Set Reminder</button>
         </div>
     </div>
-    <div class="promo-big-emoji">??</div>
 </div>
 
 

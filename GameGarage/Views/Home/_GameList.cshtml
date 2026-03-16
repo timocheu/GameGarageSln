@@ -1,22 +1,47 @@
 ﻿@model IEnumerable<Game>
 @{
     var title = ViewData["Section"] as string;
-}
 
-<div class="space-y-6">
-    <h3 class="text-sm font-black text-gray-500 uppercase tracking-widest">@title</h3>
-    @foreach (var game in Model ?? Enumerable.Empty<Game>())
+    int count = 1;
+}
+<div class="list-col">
+    <div class="list-col-header">
+        <div class="list-col-title">
+            @title
+        </div>
+        <a href="#" class="section-link" style="font-size:11.5px">See all</a>
+    </div>
+
+    @foreach (var game in @Model.ToList() ?? Enumerable.Empty<Game>())
     {
-        <a asp-controller="Home" asp-action="App" asp-route-id="@game.Id" class="flex items-center gap-4 group">
-            <div class="w-16 h-20 bg-gray-800 rounded overflow-hidden flex-shrink-0">
-                <img src="@game.HeaderImage" alt="@game.Name" class="w-full h-full object-cover" />
-            </div>
-            <div>
-                <h4 class="font-bold group-hover:text-blue-400 transition-colors">@game.Name</h4>
-                <span class="text-[10px] bg-gray-800 text-gray-300 px-2 py-0.5 rounded-full">
-                    @((game.Price == 0) ? "Free" : game.Price.ToString("C"))
-                </span>
-            </div>
-        </a>
+        <div class="list-item">
+            <a asp-controller="home" asp-action="app" asp-route-id="@game.Id">
+                <div class="list-rank">@(count++)</div>
+                <div class="list-item-thumb art-war" style="border-radius:9px">
+                    <img src="@game.HeaderImage" alt="@game.Name" class="h-full w-full object-cover" />
+                </div>
+                <div class="list-item-info">
+                    <div class="list-item-name">@game.Name</div>
+                    <div class="list-item-sub">
+                        @string.Join(" · ", game.Tags.Take(3))
+                    </div>
+                </div>
+                <div class="list-item-right">
+                    @if (game.Price != 0)
+                    {
+                        <div class="list-item-price">$@game.Price</div>
+                        <div class="list-item-badge lb-paid">Released</div>
+                    }
+                    else
+                    {
+                        <div class="list-item-price free">Free</div>
+                        <div class="list-item-badge lb-free">F2P</div>
+                    }
+                </div>
+            </a>
+        </div>
     }
+
 </div>
+
+

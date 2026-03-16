@@ -508,55 +508,59 @@ nav {
     background: var(--rim);
 }
 
-/* Slide thumbnails */
+/* Vertical Pagination Dots/Dashes */
 .hero-slides-nav {
     position: absolute;
-    right: 48px;
+    right: 32px; /* Slightly closer to the edge for a cleaner look */
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px; /* Increased gap for better clickability */
     z-index: 10;
 }
 
 .slide-thumb {
-    width: 64px;
-    height: 80px;
+    width: 6px; /* Thin, elegant dash */
+    height: 24px; /* Short line instead of a box */
     border-radius: 10px;
-    border: 2px solid var(--rim);
-    overflow: hidden;
+    background: rgba(255, 255, 255, 0.2); /* Subtle default */
     cursor: pointer;
-    transition: all .2s;
-    opacity: .5;
-    flex-shrink: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none; /* Removed the thick border */
+    overflow: hidden;
 }
 
-    .slide-thumb.active {
-        border-color: var(--primary);
-        opacity: 1;
-        box-shadow: 0 0 16px rgba(235,94,40,0.4);
+    /* Hover State */
+    .slide-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+        height: 32px; /* Grows slightly on hover */
     }
 
+    /* Active State - The "Pill" expansion */
+    .slide-thumb.active {
+        height: 48px; /* Expands significantly when active */
+        background: var(--primary);
+        box-shadow: 0 0 15px var(--primary);
+        opacity: 1;
+    }
+
+/* Hide the "??" text since we are using dots now */
 .slide-thumb-inner {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
+    display: none;
 }
 
+/* Optional: If you want each dot to have a hint of its unique color even as a dot */
 .slide-t1 {
-    background: linear-gradient(135deg, #2a0e06, #0d0503);
+    background: linear-gradient(to bottom, #eb5e28, #2a0e06);
 }
 
 .slide-t2 {
-    background: linear-gradient(135deg, #041520, #020810);
+    background: linear-gradient(to bottom, #3b82f6, #041520);
 }
 
 .slide-t3 {
-    background: linear-gradient(135deg, #0a1a06, #030a02);
+    background: linear-gradient(to bottom, #22c55e, #0a1a06);
 }
 
 /* Scroll hint */
