@@ -21,6 +21,8 @@ app.MapControllerRoute("home", "/",
         new { Controller = "Home", action = "Index" });
 app.MapControllerRoute("app", "app/{id}", 
         new { Controller = "Home", action = "App" });
+app.MapControllerRoute("category", "category/{category}",
+        new { Controller = "Home", action = "Category" });
 
 
 app.Run();

@@ -36,4 +36,21 @@ public class HomeController : Controller {
 
         return View(app);
     }
+
+    public IActionResult Category(string category)
+    {
+        var result = repository.Games
+            .Where(u => u.Categories.Contains(category))
+            .OrderBy(g => EF.Functions.Random())
+            .Take(5)
+            .ToArray();
+
+        CategoryViewModel viewModel = new CategoryViewModel()
+        {
+            Games = result,
+            Category = category
+        };
+
+        return View("Category", viewModel);
+    }
 }
