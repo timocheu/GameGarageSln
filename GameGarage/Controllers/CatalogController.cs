@@ -17,13 +17,13 @@ public class CatalogController : Controller
     {
         var result = _repository.Games
             .Where(u => u.Categories.Contains(category))
-            .OrderBy(g => EF.Functions.Random())
+            .OrderBy(u => EF.Functions.Random())
             .Take(5)
             .ToArray();
 
-        CategoryViewModel viewModel = new CategoryViewModel()
+        CategoryViewModel viewModel = new()
         {
-            Games = result,
+            Games = result ?? Enumerable.Empty<Game>(),
             Category = category
         };
 
