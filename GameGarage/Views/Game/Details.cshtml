@@ -1,7 +1,4 @@
 ﻿@model Game
-@{
-	ViewBag.Title = $"{Model.Name} on GameGarage";
-}
 
 @if (Model == null)
 {
@@ -23,6 +20,8 @@
 }
 else
 {
+    ViewBag.Title = $"{Model.Name} on GameGarage";
+
 	<div class="max-w-6xl mx-auto px-4 py-8 mt-20">
 
 		@* {{-- Page title --}} *@
