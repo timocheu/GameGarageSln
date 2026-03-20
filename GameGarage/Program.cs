@@ -22,7 +22,7 @@ app.MapControllerRoute("home", "/",
 app.MapControllerRoute("app", "app/{id}",
         new { Controller = "Game", action = "Details" });
 app.MapControllerRoute("category", "category/{category}",
-        new { Controller = "Home", action = "Category" });
+        new { Controller = "Catalog", action = "Category" });
 
 
 app.Run();

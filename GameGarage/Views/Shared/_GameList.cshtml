@@ -15,7 +15,7 @@
 	<ul class="space-y-4">
 		@foreach (var game in @Model.ToList() ?? Enumerable.Empty<Game>())
 		{
-			<a class="block" asp-controller="home" asp-action="app" asp-route-id="@game.Id">
+			<a class="block" asp-controller="Game" asp-action="Details" asp-route-id="@game.Id">
 			<li class="relative group flex items-center bg-[#0a0a0a] border border-transparent hover:border-gray-700 transition-all rounded-sm overflow-hidden h-32">
 
 				<div class="absolute left-4 top-1/2 -translate-y-1/2 text-5xl font-black text-gray-800/50 italic z-10 select-none">
