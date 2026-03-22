@@ -1312,3 +1312,61 @@ footer {
 .delay-5 {
     animation-delay: .5s;
 }
+
+/* The container */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #121212; /* Dark background */
+  padding: 20px;
+}
+
+/* Base style for all links (numbers and arrows) */
+.pagination-container a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Makes circular buttons */
+  text-decoration: none;
+  color: #e0e0e0; /* Off-white text */
+  font-family: sans-serif;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background-color: #1e1e1e; /* Slightly lighter than background */
+}
+
+/* The long white pill shape from your image */
+/* We can wrap the numbers in a specific class to get that grouped look */
+.pagination-group {
+  display: flex;
+  background-color: #252525; 
+  padding: 5px 15px;
+  border-radius: 30px; /* Pill shape */
+  gap: 5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Individual numbers inside the pill */
+.pagination-group a {
+  background-color: transparent; /* Remove the circle background here */
+}
+
+/* Hover state */
+.pagination-container a:hover {
+  background-color: #333333;
+}
+
+/* The active page (the blue circle) */
+.pagination-container a.active {
+  background-color: #3f51b5; /* Royal blue */
+  color: white;
+}
+
+/* Style for the '...' which isn't usually a link */
+.pagination-container span {
+  color: #888;
+  padding: 0 5px;
+}

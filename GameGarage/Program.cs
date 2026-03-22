@@ -21,7 +21,7 @@ app.MapControllerRoute("home", "/",
         new { Controller = "Home", action = "Index" });
 app.MapControllerRoute("app", "app/{id}",
         new { Controller = "Game", action = "Details" });
-app.MapControllerRoute("category", "category/{category}",
+app.MapControllerRoute("category", "category/{currentPage}",
         new { Controller = "Catalog", action = "Category" });
 
 

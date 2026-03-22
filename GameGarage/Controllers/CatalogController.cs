@@ -1,32 +1,31 @@
 using GameGarage.Models;
+using GameGarage.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace GameGarage.Controllers;
 
 public class CatalogController : Controller
 {
     private IGarageRepository _repository;
+    public const int PageSize = 4;
 
     public CatalogController(IGarageRepository repo)
     {
         _repository = repo;
     }
 
-    public IActionResult Category(string category)
+    public IActionResult Category(int currentPage = 1)
     {
-        var result = _repository.Games
-            .Where(u => u.Categories.Contains(category))
-            .OrderBy(u => EF.Functions.Random())
-            .Take(5)
-            .ToArray();
-
-        CategoryViewModel viewModel = new()
-        {
-            Games = result ?? Enumerable.Empty<Game>(),
-            Category = category
-        };
-
-        return View("Category", viewModel);
+        return View(new CatalogListViewModel {
+                Games = _repository.Games
+                    .OrderBy(g => g.Id)
+                    .Skip((currentPage - 1) * PageSize)
+                    .Take(PageSize),
+                PagingInfo = new PagingInfo {
+                    CurrentPage = currentPage,
+                    ItemsPerPage = PageSize,
+                    TotalItems = _repository.Games.Count()
+                }
+            });
     }
 }
