@@ -28,8 +28,13 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
         name: "category_paged",
-        pattern: "category/{category}/page/{currentPage}",
-        defaults: new { Controller = "Catalog", action = "Category" });
+        pattern: "category/{categoryInput}/page/{currentPage}",
+        defaults: new { Controller = "Catalog", action = "CategorySearch" });
+
+app.MapControllerRoute(
+        name: "category_paged",
+        pattern: "tag/{tagInput}/page/{currentPage}",
+        defaults: new { Controller = "Catalog", action = "TagSearch" });
 
 
 app.Run();

@@ -14,12 +14,12 @@ public class CatalogController : Controller
         _repository = repo;
     }
 
-    public IActionResult Category(string category = "All", int currentPage = 1)
+    public IActionResult CategorySearch(string categoryInput = "All", int currentPage = 1)
     {
         var query = _repository.Games.AsQueryable();
 
-        if (category != "All") {
-            query = query.Where(g => g.Categories.Contains(category));
+        if (categoryInput != "All") {
+            query = query.Where(g => g.Categories.Contains(categoryInput));
         }
 
         int totalItemsCount = query.Count();
@@ -30,13 +30,46 @@ public class CatalogController : Controller
                         .Take(PageSize)
                         .ToList();
 
-        return View(new CatalogListViewModel {
+        return View("Search", new CatalogListViewModel {
                 Games = games,
                 PagingInfo = new PagingInfo {
                     CurrentPage = currentPage,
                     ItemsPerPage = PageSize,
-                    TotalItems = totalItemsCount
+                    TotalItems = totalItemsCount,
+                    Action = "CategorySearch"
                 }
             });
+    }
+
+    public IActionResult TagSearch(string tagInput = "All", int currentPage = 1)
+    {
+        var query = _repository.Games
+            .AsQueryable()
+            .AsEnumerable();
+
+        if (tagInput != "All")
+        {
+            query = query.Where(g => g.Tags.Contains(tagInput, StringComparer.OrdinalIgnoreCase));
+        }
+
+        int totalItemsCount = query.Count();
+
+        List<Game>? games = _repository.Games
+                        .OrderBy(g => g.Id)
+                        .Skip((currentPage - 1) * PageSize)
+                        .Take(PageSize)
+                        .ToList();
+
+        return View("Search", new CatalogListViewModel
+        {
+            Games = games,
+            PagingInfo = new PagingInfo
+            {
+                CurrentPage = currentPage,
+                ItemsPerPage = PageSize,
+                TotalItems = totalItemsCount,
+                Action = "TagSearch"
+            }
+        });
     }
 }

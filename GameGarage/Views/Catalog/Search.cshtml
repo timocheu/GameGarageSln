@@ -12,7 +12,7 @@
         <div class="pagination-container">
               <a href="#">&lt;</a>
 
-              <div class="pagination-group" page-model="@Model.PagingInfo" page-action="Category">
+              <div class="pagination-group" page-model="@Model.PagingInfo" page-action="@Model.PagingInfo.Action">
               </div>
 
               <a href="#">&gt;</a>
@@ -68,9 +68,9 @@
                                 @tag
                             </span>
                         }
-                        <span class="px-2 py-1 bg-gray-900 border border-gray-700 text-[10px] text-gray-400 rounded uppercase tracking-widest group-hover:border-gray-600">Action</span>
-                        <span class="px-2 py-1 bg-gray-900 border border-gray-700 text-[10px] text-gray-400 rounded uppercase tracking-widest group-hover:border-gray-600">RPG</span>
-                        <span class="px-2 py-1 bg-gray-900 border border-gray-700 text-[10px] text-gray-400 rounded uppercase tracking-widest group-hover:border-gray-600">Open World</span>
+                        <span class="px-2 py-1 bg-gray-900 border border-gray-700 text-[10px] text-gray-400 rounded uppercase tracking-widest group-hover:border-gray-600">
+                            +
+                        </span>
                     </div>
                 </div>
 
