@@ -24,7 +24,7 @@ public class Game {
 
     public string? Publishers { get; set; }
 
-    public string? Categories { get; set; }
+    public List<string>? Categories { get; set; }
 
     public string? HeaderImage { get; set; }
 

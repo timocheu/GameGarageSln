@@ -19,7 +19,7 @@ public class CatalogController : Controller
         var query = _repository.Games.AsQueryable();
 
         if (categoryInput != "All") {
-            query = query.Where(g => g.Categories.Contains(categoryInput));
+            query = query.Where(g => g.Categories.Contains(categoryInput, StringComparer.OrdinalIgnoreCase));
         }
 
         int totalItemsCount = query.Count();
