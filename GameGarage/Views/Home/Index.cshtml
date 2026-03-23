@@ -60,17 +60,24 @@
 
 <!--  GENRE STRIP -->
 <div class="genre-strip">
-    <div class="genre-tab active">All Games</div>
-    <div class="genre-tab">Action RPG</div>
-    <div class="genre-tab">Open World</div>
-    <div class="genre-tab">Souls-like</div>
-    <div class="genre-tab">Simulation</div>
-    <div class="genre-tab">Fighting</div>
-    <div class="genre-tab">Strategy</div>
-    <div class="genre-tab">Horror</div>
-    <div class="genre-tab">Racing</div>
-    <div class="genre-tab">Sports</div>
-    <div class="genre-tab">Indie</div>
+    <a class="genre-tab active" asp-controller="Catalog" asp-action="TagSearch"
+        asp-route-tagInput="All" asp-route-currentPage="1">All Games</a>
+    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
+       asp-route-tagInput="Action" asp-route-currentPage="1">Action</a>
+    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
+       asp-route-tagInput="Open-World" asp-route-currentPage="1">Open World</a>
+    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
+       asp-route-tagInput="Souls" asp-route-currentPage="1">Souls Like</a>
+    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
+       asp-route-tagInput="Fighting" asp-route-currentPage="1">Fighting</a>
+    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
+       asp-route-tagInput="Horror" asp-route-currentPage="1">Horror</a>
+    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
+       asp-route-tagInput="Racing" asp-route-currentPage="1">Racing</a>
+    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
+       asp-route-tagInput="Sports" asp-route-currentPage="1">Sports</a>
+    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
+       asp-route-tagInput="Indie" asp-route-currentPage="1">Indie</a>
 </div>
 
 <!--  FEATURED GAMES  -->

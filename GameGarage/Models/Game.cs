@@ -24,13 +24,13 @@ public class Game {
 
     public string? Publishers { get; set; }
 
-    public List<string>? Categories { get; set; }
+    public string? Categories { get; set; }
 
     public string? HeaderImage { get; set; }
 
     public List<string>? Screenshots { get; set; }
 
-    public List<string>? Tags { get; set; }
+    public string? Tags { get; set; }
 
     public string? Windows { get; set; }
 

@@ -62,7 +62,7 @@
                     </p>
 
                     <div class="flex flex-wrap gap-2 mt-4">
-                        @foreach (string tag in game.Tags!.Take(3))
+                        @foreach (string tag in (game.Tags.Split(',')!).Take(3))
                         {
                             <span class="px-2 py-1 bg-gray-900 border border-gray-700 text-[10px] text-gray-400 rounded uppercase tracking-widest group-hover:border-gray-600">
                                 @tag

@@ -195,7 +195,7 @@ else
 					</div>
 
 					<div class="flex flex-wrap gap-1.5">
-						@foreach (string tag in Model.Tags ?? Enumerable.Empty<string>())
+						@foreach (string tag in (Model.Tags.Split(',')) ?? Enumerable.Empty<string>())
 						{
 							<span class="text-xs px-2.5 py-1 cursor-pointer transition-all"
 								  style="background:rgba(235,94,40,0.08); color:#eb5e28;

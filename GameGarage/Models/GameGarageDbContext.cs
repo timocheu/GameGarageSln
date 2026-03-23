@@ -36,16 +36,7 @@ public partial class GameGarageDbContext : DbContext
 
             entity.Property(e => e.Publishers).HasColumnName("Publishers");
 
-            entity.Property(e => e.Categories)
-            .HasConversion(
-                e => string.Join(',', e ?? Enumerable.Empty<string>()),
-                e => e.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
-                new ValueComparer<List<string>>(
-                    (c1, c2) =>
-                    (c1 ?? Enumerable.Empty<string>()).SequenceEqual(c2 ?? Enumerable.Empty<string>()),
-                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                    c => c.ToList()))
-            .HasColumnName("Categories");
+            entity.Property(e => e.Categories).HasColumnName("Categories");
 
             entity.Property(e => e.HeaderImage).HasColumnName("Header image");
 
@@ -60,16 +51,7 @@ public partial class GameGarageDbContext : DbContext
                     c => c.ToList()))
             .HasColumnName("Screenshots");
 
-            entity.Property(e => e.Tags)
-            .HasConversion(
-                e => string.Join(',', e ?? Enumerable.Empty<string>()),
-                e => e.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
-                new ValueComparer<List<string>>(
-                    (c1, c2) =>
-                    (c1 ?? Enumerable.Empty<string>()).SequenceEqual(c2 ?? Enumerable.Empty<string>()),
-                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                    c => c.ToList()))
-            .HasColumnName("Tags");
+            entity.Property(e => e.Tags).HasColumnName("Tags");
 
             entity.Property(e => e.Linux)
                 .HasColumnType("BOOL")

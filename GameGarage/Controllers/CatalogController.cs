@@ -16,49 +16,59 @@ public class CatalogController : Controller
 
     public IActionResult CategorySearch(string categoryInput = "All", int currentPage = 1)
     {
-        var query = _repository.Games.AsQueryable();
+        // 1. Start with the full query
+        IQueryable<Game> query = _repository.Games;
 
-        if (categoryInput != "All") {
-            query = query.Where(g => g.Categories.Contains(categoryInput, StringComparer.OrdinalIgnoreCase));
+        // 2. Filter if it's not "All"
+        if (categoryInput != "All")
+        {
+            // This translates to: WHERE Category LIKE '%Action%'
+            // We use ToLower() on both sides to make it case-insensitive
+            query = query.Where(g => g.Categories.ToLower().Contains(categoryInput.ToLower()));
         }
 
+        // 3. Get the TOTAL count of filtered items for the pager
         int totalItemsCount = query.Count();
 
-        List<Game>? games = _repository.Games
-                        .OrderBy(g => g.Id)
-                        .Skip((currentPage - 1) * PageSize)
-                        .Take(PageSize)
-                        .ToList();
+        // 4. Order, Page, and Execute
+        var gamesList = query
+            .OrderBy(g => g.Id)
+            .Skip((currentPage - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
 
-        return View("Search", new CatalogListViewModel {
-                Games = games,
-                PagingInfo = new PagingInfo {
-                    CurrentPage = currentPage,
-                    ItemsPerPage = PageSize,
-                    TotalItems = totalItemsCount,
-                    Action = "CategorySearch"
-                }
-            });
+        return View("Search", new CatalogListViewModel
+        {
+            Games = gamesList,
+            PagingInfo = new PagingInfo
+            {
+                CurrentPage = currentPage,
+                ItemsPerPage = PageSize,
+                TotalItems = totalItemsCount,
+                Action = "CategorySearch"
+            }
+        });
     }
 
     public IActionResult TagSearch(string tagInput = "All", int currentPage = 1)
     {
-        var query = _repository.Games
-            .AsQueryable()
-            .AsEnumerable();
+        // 1. Initialize the query
+        IQueryable<Game> query = _repository.Games;
 
+        // 2. Apply the filter to the 'query' variable
         if (tagInput != "All")
         {
-            query = query.Where(g => g.Tags.Contains(tagInput, StringComparer.OrdinalIgnoreCase));
+            query = query.Where(g => g.Tags.ToLower().Contains(tagInput.ToLower()));
         }
 
+        // 3. Get the count from the 'query' (filtered)
         int totalItemsCount = query.Count();
 
-        List<Game>? games = _repository.Games
-                        .OrderBy(g => g.Id)
-                        .Skip((currentPage - 1) * PageSize)
-                        .Take(PageSize)
-                        .ToList();
+        var games = query
+                    .OrderBy(g => g.Id)
+                    .Skip((currentPage - 1) * PageSize)
+                    .Take(PageSize)
+                    .ToList();
 
         return View("Search", new CatalogListViewModel
         {
