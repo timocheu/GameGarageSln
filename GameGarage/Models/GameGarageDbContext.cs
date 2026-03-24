@@ -14,9 +14,9 @@ public partial class GameGarageDbContext : DbContext
     {
         modelBuilder.Entity<Game>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("GamesLite");
+            entity.HasKey(e => e.Id);
+
+            entity.ToTable("GamesLite");
 
             entity.Property(e => e.Id)
                 .HasColumnType("BIGINT")

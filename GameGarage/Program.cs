@@ -32,9 +32,12 @@ app.MapControllerRoute(
         defaults: new { Controller = "Catalog", action = "CategorySearch" });
 
 app.MapControllerRoute(
-        name: "category_paged",
+        name: "tag_paged",
         pattern: "tag/{tagInput}/page/{currentPage}",
         defaults: new { Controller = "Catalog", action = "TagSearch" });
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

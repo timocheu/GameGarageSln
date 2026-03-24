@@ -1,0 +1,98 @@
+﻿@model GameGarage.Models.Game
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Game</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AboutTheGame" class="control-label"></label>
+                <input asp-for="AboutTheGame" class="form-control" />
+                <span asp-validation-for="AboutTheGame" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Developers" class="control-label"></label>
+                <input asp-for="Developers" class="form-control" />
+                <span asp-validation-for="Developers" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Publishers" class="control-label"></label>
+                <input asp-for="Publishers" class="form-control" />
+                <span asp-validation-for="Publishers" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Categories" class="control-label"></label>
+                <input asp-for="Categories" class="form-control" />
+                <span asp-validation-for="Categories" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HeaderImage" class="control-label"></label>
+                <input asp-for="HeaderImage" class="form-control" />
+                <span asp-validation-for="HeaderImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Screenshots" class="control-label"></label>
+                <input asp-for="Screenshots" class="form-control" />
+                <span asp-validation-for="Screenshots" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <input asp-for="Tags" class="form-control" />
+                <span asp-validation-for="Tags" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Windows" class="control-label"></label>
+                <input asp-for="Windows" class="form-control" />
+                <span asp-validation-for="Windows" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mac" class="control-label"></label>
+                <input asp-for="Mac" class="form-control" />
+                <span asp-validation-for="Mac" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Linux" class="control-label"></label>
+                <input asp-for="Linux" class="form-control" />
+                <span asp-validation-for="Linux" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
