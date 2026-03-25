@@ -1,102 +1,161 @@
-﻿@model GameGarage.Models.Game
+﻿@model Game
 
-@{
-    ViewData["Title"] = "Details";
+@if (Model == null)
+{
+	<div class="flex flex-col items-center justify-center min-h-screen space-y-6">
+
+		<h1 class="text-4xl font-bold tracking-tight text-white">Game not found</h1>
+
+		<p class="text-sm" style="color:#5e809e">
+			The game you are looking for does not exist or has been removed.
+		</p>
+
+		<a href="/"
+		   class="px-6 py-2 text-white text-sm font-semibold uppercase tracking-wider transition-all"
+		   style="background:#eb5e28; border-radius:9px; box-shadow:0 4px 18px rgba(235,94,40,0.4);">
+			Back to Home
+		</a>
+
+	</div>
 }
+else
+{
+    ViewBag.Title = $"{Model.Name} on GameGarage";
 
-<h1>Details</h1>
+<div class="max-w-6xl mx-auto px-4 py-8 mt-20">
+        <div class="flex flex-col lg:flex-row gap-6">
 
-<div>
-    <h4>Game</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AboutTheGame)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AboutTheGame)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Notes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Notes)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Developers)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Developers)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Publishers)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Publishers)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Categories)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categories)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HeaderImage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HeaderImage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Screenshots)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Screenshots)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tags)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tags)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Windows)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Windows)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mac)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mac)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Linux)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Linux)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+            @* ── LEFT COLUMN ───────────────────── *@
+            <div class="lg:w-2/3 flex flex-col gap-3">
+                
+                @* Main Image Display & Thumbnails (Your Existing Code) *@
+                <div class="relative overflow-hidden" style="height:400px; border-radius:14px; border:1px solid #153352; background:#040c14;">
+                    <img id="mainDisplay" src="@Model.HeaderImage" class="w-full h-full object-cover" />
+                    <div class="absolute bottom-0 left-0 right-0 h-16 pointer-events-none" style="background:linear-gradient(to top,rgba(2,5,9,0.7),transparent)"></div>
+                </div>
+
+                @* Thumbnail Strip *@
+                <div class="w-full overflow-x-auto pb-1 scrollbar-thin">
+                    <div class="flex gap-2 w-max">
+                        <img src="@Model.HeaderImage" onclick="swapImage('@Model.HeaderImage')" class="thumb-img w-24 h-16 object-cover cursor-pointer shrink-0 border-2 border-[#eb5e28] rounded-lg" />
+                        @foreach (string s in Model.Screenshots ?? Enumerable.Empty<string>())
+                        {
+                            <img src="@s" onclick="swapImage('@s')" class="thumb-img w-24 h-16 object-cover cursor-pointer shrink-0 border-2 border-[#1c4268] hover:border-[#eb5e28] transition-all rounded-lg" />
+                        }
+                    </div>
+                </div>
+
+                @* ── NEW: About & System Requirements Section ───────────────────── *@
+                <div class="mt-2 p-6" style="border-radius:14px; background:#0b1929; border:1px solid #153352;">
+                    <div class="flex justify-between items-start mb-6">
+                        <h1 class="text-3xl font-bold text-white tracking-tight" style="font-family:'Syne',sans-serif;">
+                            @Model.Name
+                        </h1>
+                        @* ADDED: Platform Icons *@
+                        <div class="flex gap-3 text-xl" style="color:#3d6a8a;">
+                            <i class="fab fa-windows @(Model.Windows == "True" ? "text-[#eb5e28]" : "opacity-20")"></i>
+                            <i class="fab fa-apple @(Model.Mac == "True" ? "text-[#eb5e28]" : "opacity-20")"></i>
+                            <i class="fab fa-linux @(Model.Linux == "True" ? "text-[#eb5e28]" : "opacity-20")"></i>
+                        </div>
+                    </div>
+
+                    <h2 class="text-white text-lg font-bold mb-4 uppercase tracking-widest text-xs" style="color:#eb5e28;">
+                        About the Game
+                    </h2>
+                    <p class="text-sm leading-relaxed mb-8" style="color:#8ab4d4;">
+                        @Model.AboutTheGame
+                    </p>
+
+                    @* ADDED: System Requirements (Toggleable or Static) *@
+                    <div class="border-t border-[#153352] pt-6 mt-6">
+                        <h3 class="text-white text-sm font-bold mb-4 uppercase tracking-widest">System Requirements</h3>
+                        <div class="grid grid-cols-2 gap-8 text-[11px]" style="color:#5e809e;">
+                            <div>
+                                <p class="font-bold text-white mb-2 uppercase">Minimum</p>
+                                <ul class="space-y-1">
+                                    <li><span class="text-[#3d6a8a]">OS:</span> Windows 10/11 64-bit</li>
+                                    <li><span class="text-[#3d6a8a]">Processor:</span> Intel Core i5-8400</li>
+                                    <li><span class="text-[#3d6a8a]">Memory:</span> 16 GB RAM</li>
+                                    <li><span class="text-[#3d6a8a]">Graphics:</span> NVIDIA GTX 1060</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-bold text-white mb-2 uppercase">Recommended</p>
+                                <ul class="space-y-1">
+                                    <li><span class="text-[#3d6a8a]">OS:</span> Windows 11</li>
+                                    <li><span class="text-[#3d6a8a]">Processor:</span> Intel Core i7-9700</li>
+                                    <li><span class="text-[#3d6a8a]">Memory:</span> 32 GB RAM</li>
+                                    <li><span class="text-[#3d6a8a]">Graphics:</span> NVIDIA RTX 3060</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* ── RIGHT COLUMN ──────────────────── *@
+            <div class="lg:w-1/3 flex flex-col gap-4">
+
+                @* Purchase Card (Existing Code with minor tweaks) *@
+                <div style="border-radius:16px; background:#0b1929; border:1px solid #153352; overflow:hidden;">
+                    <img src="@Model.HeaderImage" class="w-full object-cover h-[180px]" />
+                    <div class="p-5 flex flex-col gap-4">
+                        <div class="flex items-baseline justify-between">
+                            <span class="text-2xl font-bold text-white" style="font-family:'Syne',sans-serif;">
+                                @(Model.Price != 0 ? $"${Model.Price}" : "Free")
+                            </span>
+                            <span class="text-[10px] px-2 py-0.5 border border-[#153352] text-[#3d6a8a] rounded-md font-bold uppercase">
+                                Ver 1.0.4
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                @* Metadata Section *@
+                <div class="p-5" style="border-radius:14px; background:#0b1929; border:1px solid #153352;">
+                    <div class="grid gap-y-3 text-xs" style="grid-template-columns:110px 1fr;">
+                        <div class="text-[#3d6a8a] font-bold uppercase">Developer</div>
+                        <div class="text-[#eb5e28] hover:underline cursor-pointer">@Model.Developers</div>
+
+                        <div class="text-[#3d6a8a] font-bold uppercase">Publisher</div>
+                        <div class="text-[#eb5e28] hover:underline cursor-pointer">@Model.Publishers</div>
+
+                        <div class="text-[#3d6a8a] font-bold uppercase">Release</div>
+                        <div class="text-[#8ab4d4]">@Model.ReleaseDate.ToString("d")</div>
+                        
+                        <div class="text-[#3d6a8a] font-bold uppercase">Genre</div>
+                        <div class="text-[#8ab4d4]">@Model.Categories</div>
+                    </div>
+                </div>
+
+                @* Tags Section *@
+                <div class="p-5" style="border-radius:14px; background:#0b1929; border:1px solid #153352;">
+                    <div class="text-xs font-bold uppercase tracking-widest mb-3 text-[#3d6a8a]">Popular Tags</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        @foreach (string tag in (Model.Tags?.Split(',')) ?? Enumerable.Empty<string>())
+                        {
+                            <span class="text-[10px] px-2 py-1 transition-all rounded-md border border-orange-500/20 bg-orange-500/5 text-[#eb5e28] hover:bg-orange-500 hover:text-white cursor-pointer">
+                                @tag.Trim()
+                            </span>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+	<script>
+		function swapImage(newSrc) {
+			// 1. Swap main image
+			const mainImg = document.getElementById('mainDisplay');
+			mainImg.src = newSrc;
+
+			// 2. Update active thumbnail border
+			document.querySelectorAll('.thumb-img').forEach(thumb => {
+				const match = thumb.src === newSrc || thumb.src.endsWith(newSrc);
+				thumb.style.borderColor = match ? '#eb5e28' : '#1c4268';
+			});
+		}
+	</script>
+}
