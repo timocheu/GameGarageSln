@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,9 +22,33 @@ namespace GameGarage.Controllers
         }
 
         // GET: Games
-        public async Task<IActionResult> Index(int currentPage)
+        public async Task<IActionResult> Index(string searchString, string sortOrder, int currentPage = 1)
         {
-            var games = await _context.Games
+            var gamesQuery = _context.Games.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                gamesQuery = gamesQuery.Where(g => g.Name.Contains(searchString) 
+                                                || (g.Developers != null && g.Developers.Contains(searchString)) 
+                                                || g.Id.ToString() == searchString);
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentSort"] = sortOrder;
+
+            gamesQuery = sortOrder switch
+            {
+                "name_desc" => gamesQuery.OrderByDescending(g => g.Name),
+                "price" => gamesQuery.OrderBy(g => g.Price),
+                "price_desc" => gamesQuery.OrderByDescending(g => g.Price),
+                "date" => gamesQuery.OrderBy(g => g.ReleaseDate),
+                "date_desc" => gamesQuery.OrderByDescending(g => g.ReleaseDate),
+                _ => gamesQuery.OrderBy(g => g.Name),
+            };
+
+            var totalItems = await gamesQuery.CountAsync();
+
+            var games = await gamesQuery
                 .Skip((currentPage - 1) * PageSize)
                 .Take(PageSize)
                 .ToListAsync();
@@ -36,7 +60,7 @@ namespace GameGarage.Controllers
                 {
                     CurrentPage = currentPage,
                     ItemsPerPage = PageSize,
-                    TotalItems = _context.Games.Count(),
+                    TotalItems = totalItems,
                     Action = "Index"
                 }
             });
