@@ -14,6 +14,7 @@ builder.Services.AddDbContext<GameGarageDbContext>( options =>
 
 // Repository is made by using the context
 builder.Services.AddScoped<IGarageRepository, EFGarageRepository>();
+builder.Services.AddScoped<GameGarage.Infrastructure.IAuditService, GameGarage.Infrastructure.EFAuditService>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<GameGarageDbContext>()
@@ -36,13 +37,13 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
         name: "category_paged",
-        pattern: "category/{categoryInput}/page/{currentPage}",
-        defaults: new { Controller = "Catalog", action = "CategorySearch" });
+        pattern: "category/{category}/page/{currentPage}",
+        defaults: new { Controller = "Catalog", action = "Index" });
 
 app.MapControllerRoute(
         name: "tag_paged",
-        pattern: "tag/{tagInput}/page/{currentPage}",
-        defaults: new { Controller = "Catalog", action = "TagSearch" });
+        pattern: "tag/{searchString}/page/{currentPage}",
+        defaults: new { Controller = "Catalog", action = "Index" });
 
 app.MapControllerRoute(
     name: "default",

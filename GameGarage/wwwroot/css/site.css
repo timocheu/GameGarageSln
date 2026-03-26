@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 body {
     background-color: #020b18;
@@ -707,7 +707,6 @@ section {
     cursor: pointer;
     transition: all .28s cubic-bezier(.25,.8,.25,1);
     background: var(--trench);
-    group: true;
 }
 
     .game-card:hover {
@@ -1317,6 +1316,7 @@ footer {
 .pagination-container {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   padding: 20px;
 }

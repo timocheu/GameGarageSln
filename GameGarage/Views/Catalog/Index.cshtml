@@ -1,0 +1,183 @@
+@model CatalogListViewModel
+@{
+    ViewBag.Title = "Browse Games | Game Garage";
+    var categories = ViewBag.Categories as List<string> ?? new List<string>();
+    var currentCategory = ViewData["CurrentCategory"]?.ToString() ?? "All";
+    var currentFilter = ViewData["CurrentFilter"]?.ToString() ?? "";
+    var currentSort = ViewData["CurrentSort"]?.ToString() ?? "name";
+}
+
+<div class="min-h-screen bg-[#020509] text-gray-300 pt-24 pb-12">
+    <div class="max-w-[1600px] mx-auto px-6">
+        
+        <!-- Header & Search -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+            <div>
+                <h1 class="text-4xl font-black text-white italic tracking-tighter uppercase">
+                    PROVEN <span class="text-orange-600">INVENTORY</span>
+                </h1>
+                <p class="text-sm text-gray-500 font-medium uppercase tracking-widest mt-1">Showing @Model.Games.Count() of @Model.PagingInfo.TotalItems Games</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
+                <form asp-action="Index" method="get" class="flex items-center gap-2">
+                    <input type="hidden" name="searchString" value="@currentFilter" />
+                    <input type="hidden" name="category" value="@currentCategory" />
+                    <select name="sortOrder" onchange="this.form.submit()" 
+                            class="bg-[#0a0a0a] border border-gray-800 rounded-xl py-3 px-4 focus:outline-none focus:border-orange-600 transition-all text-sm text-gray-400 cursor-pointer hover:border-gray-700">
+                        <option value="name" selected="@(currentSort == "name")">Name (A-Z)</option>
+                        <option value="name_desc" selected="@(currentSort == "name_desc")">Name (Z-A)</option>
+                        <option value="price" selected="@(currentSort == "price")">Price (Low to High)</option>
+                        <option value="price_desc" selected="@(currentSort == "price_desc")">Price (High to Low)</option>
+                        <option value="date" selected="@(currentSort == "date")">Release (Oldest)</option>
+                        <option value="date_desc" selected="@(currentSort == "date_desc")">Release (Newest)</option>
+                    </select>
+                </form>
+
+                <form asp-action="Index" method="get" class="flex w-full md:w-auto gap-3">
+                    <div class="relative group flex-1 md:w-64">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-orange-500 transition-colors"></i>
+                        <input type="text" name="searchString" value="@currentFilter" placeholder="Search..." 
+                               class="w-full bg-[#0a0a0a] border border-gray-800 rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:border-orange-600 transition-all text-sm placeholder:text-gray-600">
+                    </div>
+                    <input type="hidden" name="category" value="@currentCategory" />
+                    <input type="hidden" name="sortOrder" value="@currentSort" />
+                    <button type="submit" class="px-6 py-3 bg-orange-600 text-white font-bold rounded-xl hover:bg-orange-500 transition-all shadow-lg shadow-orange-600/20">
+                        Find
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-8">
+            <!-- Sidebar Filters -->
+            <aside class="col-span-12 lg:col-span-3 space-y-8">
+                <div>
+                    <h3 class="text-xs font-black text-white uppercase tracking-widest mb-6 flex items-center gap-2">
+                        <span class="w-1.5 h-4 bg-orange-600 rounded-full"></span>
+                        Categories
+                    </h3>
+                    <div class="flex flex-col gap-1">
+                        <a asp-action="Index" asp-route-category="All" asp-route-searchString="@currentFilter" asp-route-sortOrder="@currentSort"
+                           class="px-4 py-2.5 rounded-xl text-sm font-medium transition-all @(currentCategory == "All" ? "bg-orange-600/10 text-orange-500 border border-orange-600/20" : "text-gray-500 hover:bg-white/5 hover:text-gray-300")">
+                           All Categories
+                        </a>
+                        @foreach (var cat in categories)
+                        {
+                            <a asp-action="Index" asp-route-category="@cat" asp-route-searchString="@currentFilter" asp-route-sortOrder="@currentSort"
+                               class="px-4 py-2.5 rounded-xl text-sm font-medium transition-all @(currentCategory == cat ? "bg-orange-600/10 text-orange-500 border border-orange-600/20" : "text-gray-500 hover:bg-white/5 hover:text-gray-300")">
+                               @cat
+                            </a>
+                        }
+                    </div>
+                </div>
+
+                <div class="p-6 rounded-3xl bg-gradient-to-br from-orange-600/20 to-transparent border border-orange-600/10">
+                    <h4 class="text-white font-bold mb-2">Member Perks</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-4">Sign in to sync your library across devices and get early access to new builds.</p>
+                    <a asp-controller="Account" asp-action="Login" class="text-xs font-bold text-orange-500 hover:underline">Sign In Now &rarr;</a>
+                </div>
+            </aside>
+
+            <!-- Game List -->
+            <div class="col-span-12 lg:col-span-9 space-y-6">
+                @if (!Model.Games.Any())
+                {
+                    <div class="flex flex-col items-center justify-center py-20 bg-[#0a0a0a] border border-gray-800 rounded-3xl border-dashed">
+                        <i class="fas fa-ghost text-4xl text-gray-700 mb-4"></i>
+                        <h2 class="text-xl font-bold text-white">No games found</h2>
+                        <p class="text-sm text-gray-500 mt-1">Try adjusting your filters or search terms.</p>
+                        <a asp-action="Index" class="mt-6 text-orange-500 font-bold hover:underline">Clear all filters</a>
+                    </div>
+                }
+
+                @foreach (Game game in Model.Games)
+                {
+                    <div class="group relative flex flex-col md:flex-row bg-[#080808]/50 border border-gray-800 rounded-3xl overflow-hidden hover:border-orange-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-900/10">
+                        <div class="relative w-full md:w-[320px] h-48 md:h-auto overflow-hidden shrink-0">
+                            <img src="@game.HeaderImage" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100" />
+                            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent md:hidden"></div>
+                        </div>
+
+                        <div class="flex-1 p-8 flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start gap-4">
+                                    <div class="min-w-0">
+                                        <h3 class="text-2xl font-black text-white italic tracking-tighter uppercase group-hover:text-orange-500 transition-colors">
+                                            @game.Name
+                                        </h3>
+                                        <div class="flex items-center gap-3 mt-2">
+                                            <span class="text-[10px] font-black uppercase tracking-widest text-gray-500 bg-white/5 px-2 py-0.5 rounded border border-white/5">@game.Developers</span>
+                                            <span class="w-1 h-1 bg-gray-700 rounded-full"></span>
+                                            <span class="text-[10px] font-medium text-gray-500 uppercase tracking-widest">Released @game.ReleaseDate.ToString("MMM yyyy")</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-right flex-shrink-0">
+                                        @if (game.Price > 0)
+                                        {
+                                            <div class="text-2xl font-black text-white italic tracking-tighter">$@game.Price.ToString("F2")</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="text-2xl font-black text-green-500 italic tracking-tighter">FREE</div>
+                                        }
+                                    </div>
+                                </div>
+                                <p class="mt-4 text-sm text-gray-500 leading-relaxed line-clamp-2 max-w-2xl">
+                                    @game.AboutTheGame
+                                </p>
+                            </div>
+
+                            <div class="flex items-center justify-between mt-8 pt-6 border-t border-white/5">
+                                <div class="flex gap-4 text-gray-600">
+                                    <i class="fab fa-windows @(game.Windows == "True" ? "text-orange-600/50" : "opacity-10")"></i>
+                                    <i class="fab fa-apple @(game.Mac == "True" ? "text-orange-600/50" : "opacity-10")"></i>
+                                    <i class="fab fa-linux @(game.Linux == "True" ? "text-orange-600/50" : "opacity-10")"></i>
+                                </div>
+
+                                <div class="flex gap-3">
+                                    <a asp-controller="Games" asp-action="Details" asp-route-id="@game.Id"
+                                       class="px-8 py-3 bg-white text-black text-xs font-black uppercase tracking-widest rounded-xl hover:bg-orange-600 hover:text-white transition-all shadow-xl shadow-black/20">
+                                        Experience Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Pagination -->
+                @if (Model.PagingInfo.TotalPages > 1)
+                {
+                    <div class="pagination-container">
+                        <a asp-action="Index" 
+                           asp-route-currentPage="@(Model.PagingInfo.CurrentPage - 1)"
+                           asp-route-searchString="@currentFilter"
+                           asp-route-category="@currentCategory"
+                           asp-route-sortOrder="@currentSort"
+                           class="@(Model.PagingInfo.CurrentPage <= 1 ? "pointer-events-none opacity-20" : "")">
+                           &lt;
+                        </a>
+
+                        <div class="pagination-group" 
+                             page-model="@Model.PagingInfo" 
+                             page-action="Index"
+                             page-url-searchString="@currentFilter"
+                             page-url-category="@currentCategory"
+                             page-url-sortOrder="@currentSort">
+                        </div>
+
+                        <a asp-action="Index" 
+                           asp-route-currentPage="@(Model.PagingInfo.CurrentPage + 1)"
+                           asp-route-searchString="@currentFilter"
+                           asp-route-category="@currentCategory"
+                           asp-route-sortOrder="@currentSort"
+                           class="@(Model.PagingInfo.CurrentPage >= Model.PagingInfo.TotalPages ? "pointer-events-none opacity-20" : "")">
+                           &gt;
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

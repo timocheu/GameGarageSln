@@ -15,31 +15,61 @@ public class CatalogController : Controller
         _repository = repo;
     }
 
-    public IActionResult CategorySearch(string categoryInput = "All", int currentPage = 1)
+    public IActionResult Index(string searchString, string category = "All", string sortOrder = "name", int currentPage = 1)
     {
-        // 1. Start with the full query
         IQueryable<Game> query = _repository.Games;
 
-        // 2. Filter if it's not "All"
-        if (categoryInput != "All")
+        // 1. Filter by Search String (Case-Insensitive & Null-Safe)
+        if (!string.IsNullOrEmpty(searchString))
         {
-            // This translates to: WHERE Category LIKE '%Action%'
-            // We use ToLower() on both sides to make it case-insensitive
-            query = query.Where(g => g.Categories.ToLower().Contains(categoryInput.ToLower()));
+            var searchLower = searchString.ToLower();
+            query = query.Where(g => (!string.IsNullOrEmpty(g.Name) && g.Name.ToLower().Contains(searchLower)) 
+                                || (!string.IsNullOrEmpty(g.Developers) && g.Developers.ToLower().Contains(searchLower)));
         }
 
-        // 3. Get the TOTAL count of filtered items for the pager
+        // 2. Filter by Category
+        if (category != "All")
+        {
+            var categoryLower = category.ToLower();
+            query = query.Where(g => !string.IsNullOrEmpty(g.Categories) && g.Categories.ToLower().Contains(categoryLower));
+        }
+
+        // 3. Sorting logic
+        ViewData["CurrentSort"] = sortOrder;
+        query = sortOrder switch
+        {
+            "name_desc" => query.OrderByDescending(g => g.Name),
+            "price" => query.OrderBy(g => g.Price),
+            "price_desc" => query.OrderByDescending(g => g.Price),
+            "date" => query.OrderBy(g => g.ReleaseDate),
+            "date_desc" => query.OrderByDescending(g => g.ReleaseDate),
+            _ => query.OrderBy(g => g.Name),
+        };
+
+        // 4. Count Total Items for Pager
         int totalItemsCount = query.Count();
 
-        // 4. Order, Page, and Execute
+        // 5. Order and Page results
         var gamesList = query
-            .OrderBy(g => g.Id)
             .Skip((currentPage - 1) * PageSize)
             .Take(PageSize)
             .ToList();
 
+        ViewData["CurrentFilter"] = searchString;
+        ViewData["CurrentCategory"] = category;
 
-        return View("Search", new CatalogListViewModel
+        // Fetch unique categories for the sidebar in-memory
+        ViewBag.Categories = _repository.Games
+            .Where(g => !string.IsNullOrEmpty(g.Categories))
+            .Select(g => g.Categories)
+            .AsEnumerable() // Pulled into memory to handle the split/distinct logic
+            .SelectMany(c => c!.Split(',', System.StringSplitOptions.RemoveEmptyEntries))
+            .Select(c => c.Trim())
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+
+        return View(new CatalogListViewModel
         {
             Games = gamesList,
             PagingInfo = new PagingInfo
@@ -47,41 +77,20 @@ public class CatalogController : Controller
                 CurrentPage = currentPage,
                 ItemsPerPage = PageSize,
                 TotalItems = totalItemsCount,
-                Action = "CategorySearch"
+                Action = "Index"
             }
         });
     }
 
+    public IActionResult CategorySearch(string categoryInput = "All", int currentPage = 1)
+    {
+        return RedirectToAction("Index", new { category = categoryInput, currentPage });
+    }
+
     public IActionResult TagSearch(string tagInput = "All", int currentPage = 1)
     {
-        // 1. Initialize the query
-        IQueryable<Game> query = _repository.Games;
-
-        // 2. Apply the filter to the 'query' variable
-        if (tagInput != "All")
-        {
-            query = query.Where(g => g.Tags.ToLower().Contains(tagInput.ToLower()));
-        }
-
-        // 3. Get the count from the 'query' (filtered)
-        int totalItemsCount = query.Count();
-
-        var games = query
-                    .OrderBy(g => g.Id)
-                    .Skip((currentPage - 1) * PageSize)
-                    .Take(PageSize)
-                    .ToList();
-
-        return View("Search", new CatalogListViewModel
-        {
-            Games = games,
-            PagingInfo = new PagingInfo
-            {
-                CurrentPage = currentPage,
-                ItemsPerPage = PageSize,
-                TotalItems = totalItemsCount,
-                Action = "TagSearch"
-            }
-        });
+        // For tags, we can just use the searchString or add a tag parameter to Index.
+        // For now, let's just search the tags in Index if we want.
+        return RedirectToAction("Index", new { searchString = tagInput, currentPage });
     }
 }

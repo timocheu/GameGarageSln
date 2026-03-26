@@ -1,34 +1,42 @@
 @model Game
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 
 @if (Model == null)
 {
-	<div class="flex flex-col items-center justify-center min-h-screen space-y-6">
-
-		<h1 class="text-4xl font-bold tracking-tight text-white">Game not found</h1>
-
-		<p class="text-sm" style="color:#5e809e">
-			The game you are looking for does not exist or has been removed.
-		</p>
-
-		<a href="/"
-		   class="px-6 py-2 text-white text-sm font-semibold uppercase tracking-wider transition-all"
-		   style="background:#eb5e28; border-radius:9px; box-shadow:0 4px 18px rgba(235,94,40,0.4);">
-			Back to Home
-		</a>
-
-	</div>
+    Layout = "_Layout";
+    <div class="flex flex-col items-center justify-center min-h-[60vh] space-y-6 pt-20">
+        <h1 class="text-4xl font-bold tracking-tight text-white">Game not found</h1>
+        <p class="text-sm text-[#5e809e]">
+            The game you are looking for does not exist or has been removed.
+        </p>
+        <a asp-controller="Catalog" asp-action="Index"
+           class="px-6 py-2 text-white text-sm font-semibold uppercase tracking-wider bg-orange-600 rounded-lg shadow-lg shadow-orange-600/20 hover:bg-orange-500 transition-all">
+            Back to Store
+        </a>
+    </div>
 }
 else
 {
     ViewBag.Title = $"{Model.Name} on GameGarage";
-    Layout = "_AdminLayout";
+    Layout = SignInManager.IsSignedIn(User) ? "_AdminLayout" : "_Layout";
 
-<div class="p-8">
-        <div class="mb-6">
-            <a asp-action="Index" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold text-gray-400 hover:text-orange-500 transition-all group">
-                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
-                Back to Inventory
-            </a>
+<div class="@(SignInManager.IsSignedIn(User) ? "p-8" : "max-w-7xl mx-auto px-4 py-12 mt-16")">
+        <div class="mb-8">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <a asp-controller="Games" asp-action="Index" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold text-gray-400 hover:text-orange-500 transition-all group">
+                    <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                    Back to Inventory
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Catalog" asp-action="Index" class="inline-flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-orange-500 transition-all group">
+                    <i class="fas fa-chevron-left group-hover:-translate-x-1 transition-transform"></i>
+                    Back to Store
+                </a>
+            }
         </div>
         <div class="flex flex-col lg:flex-row gap-6">
 

@@ -17,7 +17,7 @@
         <div class="hero-actions fade-in delay-3">
             <button class="btn-hero-primary">
                 <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none" /></svg>
-                Play Now — $49.99
+                Play Now ï¿½ $49.99
             </button>
             <button class="btn-hero-ghost">Add to Wishlist</button>
         </div>
@@ -58,28 +58,6 @@
     </div>
 </section>
 
-<!--  GENRE STRIP -->
-<div class="genre-strip">
-    <a class="genre-tab active" asp-controller="Catalog" asp-action="TagSearch"
-        asp-route-tagInput="All" asp-route-currentPage="1">All Games</a>
-    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
-       asp-route-tagInput="Action" asp-route-currentPage="1">Action</a>
-    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
-       asp-route-tagInput="Open-World" asp-route-currentPage="1">Open World</a>
-    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
-       asp-route-tagInput="Souls" asp-route-currentPage="1">Souls Like</a>
-    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
-       asp-route-tagInput="Fighting" asp-route-currentPage="1">Fighting</a>
-    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
-       asp-route-tagInput="Horror" asp-route-currentPage="1">Horror</a>
-    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
-       asp-route-tagInput="Racing" asp-route-currentPage="1">Racing</a>
-    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
-       asp-route-tagInput="Sports" asp-route-currentPage="1">Sports</a>
-    <a class="genre-tab" asp-controller="Catalog" asp-action="TagSearch"
-       asp-route-tagInput="Indie" asp-route-currentPage="1">Indie</a>
-</div>
-
 <!--  FEATURED GAMES  -->
 <partial name="_FeaturedGames" model="Model.Features" />
 
@@ -98,9 +76,9 @@
 <!-- ??? PROMO BANNER ??????????????????????? -->
 <div class="promo-banner">
     <div class="promo-text">
-        <div class="promo-eyebrow">Spring Sale — Ends March 20</div>
+        <div class="promo-eyebrow">Spring Sale ï¿½ Ends March 20</div>
         <div class="promo-title">UP TO <em>70% OFF</em><br>EPIC TITLES</div>
-        <p class="promo-desc">Over 400 games deeply discounted. Don't miss out — the biggest sale of the season is live now.</p>
+        <p class="promo-desc">Over 400 games deeply discounted. Don't miss out ï¿½ the biggest sale of the season is live now.</p>
         <div class="promo-actions">
             <button class="btn-hero-primary" style="font-size:12.5px;padding:11px 22px">
                 <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none" /></svg>
@@ -137,7 +115,7 @@
 
       hero.style.backgroundImage = `url('${t.image}')`;
       hero.style.backgroundSize = "cover"; // Ensures it fits nicely
-      document.querySelector('.btn-hero-primary').innerHTML = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:#fff"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none"/></svg> Play Now — ${t.price}`;
+      document.querySelector('.btn-hero-primary').innerHTML = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:#fff"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none"/></svg> Play Now ï¿½ ${t.price}`;
     }
 
     setInterval(() => goSlide((current + 1) % slides.length), 5000);

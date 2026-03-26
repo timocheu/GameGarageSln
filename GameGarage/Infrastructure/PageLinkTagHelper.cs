@@ -26,6 +26,10 @@ namespace GameGarage.Infrastructure
 
         public string? PageAction { get; set; }
 
+        [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
+        public Dictionary<string, object> PageUrlValues { get; set; }
+            = new Dictionary<string, object>();
+
         public override void Process(TagHelperContext context,
                 TagHelperOutput output)
         {
@@ -53,7 +57,11 @@ namespace GameGarage.Infrastructure
                 Func<int, TagBuilder> CreatePageLink = (pageNumber) =>
                 {
                     TagBuilder tag = new TagBuilder("a");
-                    tag.Attributes["href"] = urlHelper.Action(PageAction, new { currentPage = pageNumber });
+                    
+                    // Add existing route values (search, category, etc.)
+                    PageUrlValues["currentPage"] = pageNumber;
+                    tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
+                    
                     if (currentPage == pageNumber) tag.AddCssClass("active");
                     tag.InnerHtml.Append(pageNumber.ToString());
                     return tag;

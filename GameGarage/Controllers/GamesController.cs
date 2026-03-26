@@ -12,19 +12,21 @@ using GameGarage.Models;
 
 namespace GameGarage.Controllers
 {
-    [Authorize]
     public class GamesController : Controller
     {
         private readonly GameGarageDbContext _context;
+        private readonly GameGarage.Infrastructure.IAuditService _auditService;
 
         int PageSize = 20;
 
-        public GamesController(GameGarageDbContext context)
+        public GamesController(GameGarageDbContext context, GameGarage.Infrastructure.IAuditService auditService)
         {
             _context = context;
+            _auditService = auditService;
         }
 
         // GET: Games
+        [Authorize]
         public async Task<IActionResult> Index(string searchString, string sortOrder, int currentPage = 1)
         {
             var gamesQuery = _context.Games.AsQueryable();
@@ -88,6 +90,7 @@ namespace GameGarage.Controllers
         }
 
         // GET: Games/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -97,6 +100,7 @@ namespace GameGarage.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,ReleaseDate,Price,AboutTheGame,Notes,Developers,Publishers,Categories,HeaderImage,Screenshots,Tags,Windows,Mac,Linux")] Game game)
         {
@@ -104,12 +108,14 @@ namespace GameGarage.Controllers
             {
                 _context.Add(game);
                 await _context.SaveChangesAsync();
+                await _auditService.LogAction(User.Identity?.Name ?? "Admin", "Add Game", $"Added game '{game.Name}' (ID: {game.Id})");
                 return RedirectToAction(nameof(Index));
             }
             return View(game);
         }
 
         // GET: Games/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -129,6 +135,7 @@ namespace GameGarage.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ReleaseDate,Price,AboutTheGame,Notes,Developers,Publishers,Categories,HeaderImage,Screenshots,Tags,Windows,Mac,Linux")] Game game)
         {
@@ -143,6 +150,7 @@ namespace GameGarage.Controllers
                 {
                     _context.Update(game);
                     await _context.SaveChangesAsync();
+                    await _auditService.LogAction(User.Identity?.Name ?? "Admin", "Edit Game", $"Updated game details for '{game.Name}' (ID: {game.Id})");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -161,6 +169,7 @@ namespace GameGarage.Controllers
         }
 
         // GET: Games/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -180,16 +189,23 @@ namespace GameGarage.Controllers
 
         // POST: Games/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var game = await _context.Games.FindAsync(id);
             if (game != null)
             {
+                var gameName = game.Name;
+                var gameId = game.Id;
                 _context.Games.Remove(game);
+                await _context.SaveChangesAsync();
+                await _auditService.LogAction(User.Identity?.Name ?? "Admin", "Delete Game", $"Deleted game '{gameName}' (ID: {gameId})");
             }
-
-            await _context.SaveChangesAsync();
+            else
+            {
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 

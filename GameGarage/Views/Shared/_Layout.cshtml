@@ -37,7 +37,7 @@
         </a>
 
         <ul class="nav-links">
-            <li><a asp-controller="Home" asp-action="Index">Store</a></li>
+            <li><a asp-controller="Catalog" asp-action="Index">Catalog</a></li>
             <li>
                 <button class="nav-genre-btn">
                     Browse Genres
@@ -52,11 +52,6 @@
         </ul>
 
         <div class="nav-right">
-            <div class="nav-search">
-                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
-                <input type="text" placeholder="Search games…">
-            </div>
-
             @if (SignInManager.IsSignedIn(User))
             {
                 <div class="flex items-center gap-4">

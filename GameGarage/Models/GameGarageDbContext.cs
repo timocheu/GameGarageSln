@@ -11,6 +11,7 @@ public partial class GameGarageDbContext : IdentityDbContext<IdentityUser>
         : base(options) { }
 
     public DbSet<Game> Games { get; set; }
+    public DbSet<AuditLog> AuditLogs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

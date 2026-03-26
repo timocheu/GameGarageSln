@@ -1,0 +1,90 @@
+@model IEnumerable<GameGarage.Models.AuditLog>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Activity Logs";
+}
+
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-end">
+        <div>
+            <h2 class="text-3xl font-black text-white italic tracking-tighter uppercase">
+                SYSTEM <span class="text-orange-600">AUDIT</span>
+            </h2>
+            <p class="text-xs text-gray-500 font-mono mt-1">TRACKING ALL ADMINISTRATIVE ACTIONS</p>
+        </div>
+        <div class="bg-[#0a0a0a] border border-gray-800 rounded-xl px-4 py-2 flex items-center gap-3">
+            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Live Monitoring Active</span>
+        </div>
+    </div>
+
+    <!-- Logs Table -->
+    <div class="bg-[#050505] border border-gray-800 rounded-3xl overflow-hidden shadow-2xl">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-gray-800 bg-[#080808]">
+                        <th class="px-6 py-4 text-[10px] font-black text-gray-500 uppercase tracking-widest">Timestamp</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-gray-500 uppercase tracking-widest">User</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-gray-500 uppercase tracking-widest">Action</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-gray-500 uppercase tracking-widest">Details</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-900">
+                    @foreach (var log in Model)
+                    {
+                        var statusClass = log.Action switch
+                        {
+                            "Delete Game" => "text-red-500 bg-red-500/10 border-red-500/20",
+                            "Add Game" => "text-green-500 bg-green-500/10 border-green-500/20",
+                            "Login" => "text-blue-500 bg-blue-500/10 border-blue-500/20",
+                            "Register" => "text-purple-500 bg-purple-500/10 border-purple-500/20",
+                            "Edit Game" => "text-orange-500 bg-orange-500/10 border-orange-500/20",
+                            _ => "text-gray-400 bg-gray-400/10 border-gray-400/20"
+                        };
+
+                        <tr class="hover:bg-white/[0.02] transition-colors group">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-xs font-mono text-gray-400">@log.Timestamp.ToString("yyyy-MM-dd")</div>
+                                <div class="text-[10px] text-gray-600 mt-0.5">@log.Timestamp.ToString("HH:mm:ss")</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center text-[10px] font-bold text-white border border-white/5">
+                                        @log.UserEmail[0].ToString().ToUpper()
+                                    </div>
+                                    <span class="text-xs font-medium text-gray-300">@log.UserEmail</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border @statusClass">
+                                    @log.Action
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm text-gray-400 group-hover:text-gray-200 transition-colors">
+                                    @log.Description
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Paging -->
+    @if (ViewBag.TotalPages > 1)
+    {
+        <div class="flex justify-center gap-2 pt-4">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <a asp-action="Index" asp-route-page="@i" 
+                   class="w-10 h-10 flex items-center justify-center rounded-xl text-xs font-bold transition-all @(i == ViewBag.CurrentPage ? "bg-orange-600 text-white shadow-lg shadow-orange-600/20" : "bg-[#0a0a0a] text-gray-500 border border-gray-800 hover:border-orange-600/50 hover:text-white")">
+                    @i
+                </a>
+            }
+        </div>
+    }
+</div>
