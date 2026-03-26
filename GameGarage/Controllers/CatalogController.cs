@@ -1,6 +1,7 @@
 using GameGarage.Models;
 using GameGarage.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameGarage.Controllers;
 
@@ -36,6 +37,7 @@ public class CatalogController : Controller
             .Skip((currentPage - 1) * PageSize)
             .Take(PageSize)
             .ToList();
+
 
         return View("Search", new CatalogListViewModel
         {

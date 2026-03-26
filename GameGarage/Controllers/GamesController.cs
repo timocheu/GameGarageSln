@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using GameGarage.Models.ViewModels;
 using GameGarage.Models;
 
 namespace GameGarage.Controllers
@@ -13,15 +14,32 @@ namespace GameGarage.Controllers
     {
         private readonly GameGarageDbContext _context;
 
+        int PageSize = 20;
+
         public GamesController(GameGarageDbContext context)
         {
             _context = context;
         }
 
         // GET: Games
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int currentPage)
         {
-            return View(await _context.Games.ToListAsync());
+            var games = await _context.Games
+                .Skip((currentPage - 1) * PageSize)
+                .Take(PageSize)
+                .ToListAsync();
+
+            return View(new CatalogListViewModel
+            {
+                Games = games,
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = currentPage,
+                    ItemsPerPage = PageSize,
+                    TotalItems = _context.Games.Count(),
+                    Action = "Index"
+                }
+            });
         }
 
         // GET: Games/Details/5

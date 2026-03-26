@@ -1318,7 +1318,6 @@ footer {
   display: flex;
   align-items: center;
   gap: 12px;
-  background-color: #121212; /* Dark background */
   padding: 20px;
 }
 

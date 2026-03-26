@@ -10,13 +10,13 @@
             <h2 class="text-2xl font-bold text-white uppercase tracking-wider">Current Page: <span class="text-orange-500">@Model.PagingInfo.CurrentPage</span></h2>
         </div>
         <div class="pagination-container">
-              <a href="#">&lt;</a>
+            <a href="#">&lt;</a>
 
-              <div class="pagination-group" page-model="@Model.PagingInfo" page-action="@Model.PagingInfo.Action">
-              </div>
-
-              <a href="#">&gt;</a>
+            <div class="pagination-group" page-model="@Model.PagingInfo" page-action="@Model.PagingInfo.Action">
             </div>
+
+            <a href="#">&gt;</a>
+        </div>
     </div>
 
     @foreach (Game game in Model.Games ?? Enumerable.Empty<Game>())
