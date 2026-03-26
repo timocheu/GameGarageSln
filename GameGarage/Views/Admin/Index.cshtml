@@ -1,115 +1,140 @@
+@model GameGarage.Models.ViewModels.DashboardViewModel
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "_AdminLayout";
 }
 
 <div class="p-8">
-    <div class="grid grid-cols-4 gap-6 mb-8">
-        <div class="bg-orange-600 p-6 rounded-3xl text-white shadow-lg shadow-orange-600/20">
-            <p class="text-sm opacity-80">Total Playtime</p>
-            <h3 class="text-3xl font-bold mt-1">1,248h</h3>
-            <p class="text-xs mt-2">+12% from last week</p>
+    <div class="grid grid-cols-4 gap-6 mb-8 text-white">
+        <!-- Total Games -->
+        <div class="bg-orange-600 p-6 rounded-3xl shadow-lg shadow-orange-600/20 group hover:scale-[1.02] transition-transform cursor-default">
+            <div class="flex justify-between items-start mb-4">
+                <i class="fas fa-gamepad text-orange-200 text-xl"></i>
+                <span class="text-[10px] font-bold uppercase tracking-widest bg-orange-500/30 px-2 py-1 rounded-lg">Database</span>
+            </div>
+            <p class="text-xs opacity-80 uppercase font-bold tracking-wider">Total Inventory</p>
+            <h3 class="text-4xl font-black mt-1">@Model.TotalGames</h3>
+            <div class="h-1 w-full bg-white/20 rounded-full mt-4 overflow-hidden">
+                <div class="h-full bg-white w-full opacity-60"></div>
+            </div>
         </div>
-        <div class="bg-[#12161f] p-6 rounded-3xl border border-gray-800">
-            <p class="text-sm text-gray-400">Games Owned</p>
-            <h3 class="text-3xl font-bold mt-1">84</h3>
-            <p class="text-xs text-green-500 mt-2">↑ 3 New items</p>
+
+        <!-- Free Games -->
+        <div class="bg-[#12161f] p-6 rounded-3xl border border-gray-800 group hover:border-orange-500/50 transition-all cursor-default">
+            <div class="flex justify-between items-start mb-4">
+                <i class="fas fa-tag text-orange-500 text-xl"></i>
+                <span class="text-[10px] font-bold uppercase tracking-widest bg-orange-600/10 text-orange-500 px-2 py-1 rounded-lg">Monetization</span>
+            </div>
+            <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Free Titles</p>
+            <h3 class="text-4xl font-black mt-1">@Model.FreeGamesCount</h3>
+            <p class="text-xs text-green-500 mt-2 font-medium tracking-tight">Accessible to all users</p>
         </div>
-        <div class="bg-[#12161f] p-6 rounded-3xl border border-gray-800">
-            <p class="text-sm text-gray-400">Achievements</p>
-            <h3 class="text-3xl font-bold mt-1">412</h3>
-            <p class="text-xs text-orange-500 mt-2">12 Pending</p>
+
+        <!-- Categories -->
+        <div class="bg-[#12161f] p-6 rounded-3xl border border-gray-800 group hover:border-orange-500/50 transition-all cursor-default">
+            <div class="flex justify-between items-start mb-4">
+                <i class="fas fa-layer-group text-orange-500 text-xl"></i>
+                <span class="text-[10px] font-bold uppercase tracking-widest bg-orange-600/10 text-orange-500 px-2 py-1 rounded-lg">Taxonomy</span>
+            </div>
+            <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Unique Genres</p>
+            <h3 class="text-4xl font-black mt-1">@Model.CategoryCount</h3>
+            <p class="text-xs text-orange-500 mt-2 font-medium tracking-tight">Diverse catalog reach</p>
         </div>
-        <div class="bg-[#12161f] p-6 rounded-3xl border border-gray-800">
-            <p class="text-sm text-gray-400">Friend Activity</p>
-            <h3 class="text-3xl font-bold mt-1">15</h3>
-            <p class="text-xs text-blue-400 mt-2">Online now</p>
+
+        <!-- Average Price -->
+        <div class="bg-[#12161f] p-6 rounded-3xl border border-gray-800 group hover:border-orange-500/50 transition-all cursor-default">
+            <div class="flex justify-between items-start mb-4">
+                <i class="fas fa-chart-line text-orange-500 text-xl"></i>
+                <span class="text-[10px] font-bold uppercase tracking-widest bg-orange-600/10 text-orange-500 px-2 py-1 rounded-lg">Pricing</span>
+            </div>
+            <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Avg Game Price</p>
+            <h3 class="text-4xl font-black mt-1">$@Model.AveragePrice.ToString("F2")</h3>
+            <p class="text-xs text-blue-400 mt-2 font-medium tracking-tight">Paid titles only</p>
         </div>
     </div>
 
     <div class="grid grid-cols-12 gap-6">
         <div class="col-span-8 space-y-6">
+            <!-- Top Categories Bar Chart -->
             <div class="bg-[#12161f] p-6 rounded-3xl border border-gray-800">
-                <h4 class="font-bold mb-6">Gaming Trends</h4>
-                <div class="flex items-end justify-between h-48 gap-2">
-                    <div class="w-full bg-gray-800 rounded-t-lg h-24"></div>
-                    <div class="w-full bg-orange-600 rounded-t-lg h-40"></div>
-                    <div class="w-full bg-gray-800 rounded-t-lg h-32"></div>
-                    <div class="w-full bg-orange-900 rounded-t-lg h-48"></div>
-                    <div class="w-full bg-gray-800 rounded-t-lg h-20"></div>
-                    <div class="w-full bg-orange-600 rounded-t-lg h-36"></div>
-                    <div class="w-full bg-gray-800 rounded-t-lg h-28"></div>
+                <h4 class="font-bold mb-6 text-white uppercase tracking-widest text-xs flex items-center gap-2">
+                    <i class="fas fa-chart-bar text-orange-500"></i>
+                    Library Distribution
+                </h4>
+                <div class="flex items-end justify-between h-48 gap-4 px-4">
+                    @foreach (var stat in Model.CategoryStats.OrderByDescending(s => s.Value).Take(7))
+                    {
+                        <div class="flex-1 flex flex-col items-center gap-2 group">
+                            <div class="w-full bg-orange-600/20 rounded-t-xl group-hover:bg-orange-600 transition-all duration-500 relative" 
+                                 style="height: @( (double)stat.Value / Model.TotalGames * 100 )%">
+                                <span class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-orange-500 group-hover:text-white">@stat.Value</span>
+                            </div>
+                            <span class="text-[9px] font-bold text-gray-500 uppercase truncate w-full text-center">@stat.Key</span>
+                        </div>
+                    }
                 </div>
             </div>
 
+            <!-- Top Price Apps -->
             <div class="bg-[#12161f] p-6 rounded-3xl border border-gray-800">
                 <div class="flex justify-between items-center mb-6">
-                    <h4 class="font-bold">Active Squad</h4>
-                    <button class="text-orange-500 text-sm font-medium">+ Invite</button>
+                    <h4 class="font-bold text-white uppercase tracking-widest text-xs">Premium Inventory</h4>
+                    <span class="text-[10px] text-gray-500 font-bold uppercase">Top 3 by Price</span>
                 </div>
                 <div class="space-y-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-blue-500"></div>
-                            <div>
-                                <p class="text-sm font-bold">Tank_Main</p>
-                                <p class="text-xs text-gray-500">Playing: Black Myth: Wukong</p>
+                    @foreach (var game in Model.TopPriceGames)
+                    {
+                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-2xl transition-all">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-orange-600/10 flex items-center justify-center overflow-hidden border border-gray-800">
+                                    <img src="@game.HeaderImage" alt="@game.Name" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-sm font-bold text-white truncate max-w-xs">@game.Name</p>
+                                    <p class="text-xs text-gray-500">@game.Developers</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="px-3 py-1 bg-orange-600 text-white text-[10px] font-black rounded-lg">$@game.Price</span>
                             </div>
                         </div>
-                        <span class="px-3 py-1 bg-green-500/10 text-green-500 text-[10px] rounded-full uppercase">In-Game</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-purple-500"></div>
-                            <div>
-                                <p class="text-sm font-bold">Healer4Life</p>
-                                <p class="text-xs text-gray-500">In Menu</p>
-                            </div>
-                        </div>
-                        <span class="px-3 py-1 bg-orange-500/10 text-orange-500 text-[10px] rounded-full uppercase">Away</span>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
 
         <div class="col-span-4 space-y-6">
+            <!-- Recently Added Sidebar -->
             <div class="bg-[#12161f] p-6 rounded-3xl border border-gray-800">
-                <h4 class="font-bold mb-6">Recent Releases</h4>
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-800 rounded-xl flex-shrink-0"></div>
-                        <div class="flex-1">
-                            <p class="text-sm font-bold">Elden Ring DLC</p>
-                            <p class="text-xs text-gray-500">Release: Jun 2024</p>
+                <h4 class="font-bold mb-6 text-white uppercase tracking-widest text-xs">Incoming Updates</h4>
+                <div class="space-y-5">
+                    @foreach (var game in Model.RecentlyAdded)
+                    {
+                        <div class="flex items-center gap-4 group cursor-pointer">
+                            <div class="w-14 h-14 bg-gray-800 rounded-2xl overflow-hidden shadow-lg shadow-black/20 flex-shrink-0">
+                                <img src="@game.HeaderImage" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-sm font-bold text-white truncate group-hover:text-orange-500 transition-colors">@game.Name</p>
+                                <p class="text-[10px] text-gray-500 uppercase font-black">@game.ReleaseDate.ToString("MMM dd, yyyy")</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-800 rounded-xl flex-shrink-0"></div>
-                        <div class="flex-1">
-                            <p class="text-sm font-bold">Dragon's Dogma 2</p>
-                            <p class="text-xs text-gray-500">Release: Mar 2024</p>
-                        </div>
-                    </div>
+                    }
                 </div>
+                <a asp-controller="Games" asp-action="Index" class="mt-6 block w-full text-center py-3 bg-white/5 text-gray-500 hover:text-white hover:bg-orange-600/20 text-xs font-bold rounded-xl transition-all uppercase tracking-widest">
+                    Manage Full Library
+                </a>
             </div>
 
-            <div class="bg-[#12161f] p-6 rounded-3xl border border-gray-800">
-                <h4 class="font-bold mb-2 text-center">Black Myth Progress</h4>
+            <!-- Library Health -->
+            <div class="bg-[#12161f] p-6 rounded-3xl border border-gray-800 text-center">
+                <h4 class="font-bold mb-4 text-white uppercase tracking-widest text-xs">Catalog Health</h4>
                 <div class="relative flex justify-center py-6">
                     <div class="w-32 h-32 rounded-full border-8 border-gray-800 border-t-orange-600 flex items-center justify-center">
-                        <span class="text-2xl font-bold">74%</span>
+                        <span class="text-2xl font-black text-white">@( Model.TotalGames > 0 ? (Model.CategoryStats.Count * 100 / Model.TotalGames).ToString() + "%" : "0%" )</span>
                     </div>
                 </div>
-                <p class="text-xs text-center text-gray-500">Chapter 4: The Spider's Cave</p>
-            </div>
-
-            <div class="bg-gradient-to-br from-orange-600 to-orange-900 p-6 rounded-3xl shadow-lg shadow-orange-600/20">
-                <p class="text-xs uppercase tracking-widest opacity-80 mb-2">Current Session</p>
-                <h2 class="text-4xl font-mono font-bold mb-6">03:14:22</h2>
-                <div class="flex gap-2">
-                    <button class="flex-1 bg-white/20 py-2 rounded-xl backdrop-blur-sm hover:bg-white/30 transition-all"><i class="fas fa-pause"></i></button>
-                    <button class="flex-1 bg-red-500/40 py-2 rounded-xl backdrop-blur-sm hover:bg-red-500/50 transition-all"><i class="fas fa-stop"></i></button>
-                </div>
+                <p class="text-[10px] text-gray-500 font-bold uppercase tracking-tighter">Genre Utilization Score</p>
             </div>
         </div>
     </div>

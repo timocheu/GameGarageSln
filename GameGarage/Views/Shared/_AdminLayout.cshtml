@@ -34,10 +34,10 @@
             <!-- Sidebar Navigation Container (using div to avoid global nav { position: fixed } in site.css) -->
             <div role="navigation" class="flex-1 flex flex-col">
                 <div class="flex items-center gap-3 mb-10 group cursor-pointer" onclick="location.href='@Url.Action("Index", "Home")'">
-                    <div class="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center shadow-lg shadow-orange-600/20 group-hover:bg-orange-500 transition-all">
-                        <i class="fas fa-gamepad text-white"></i>
-                    </div>
-                    <h1 class="text-xl font-bold tracking-tight text-white uppercase group-hover:text-orange-400 transition-all">Game Garage</h1>
+                    <div class="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center shadow-lg shadow-orange-600/20 group-hover:bg-orange-500 transition-all p-1.5 flex-shrink-0">
+                    <img src="/images/logo.svg" alt="Game Garage Logo" class="w-full h-full object-contain filter brightness-0 invert" />
+                </div>
+                <h1 class="text-xl font-bold tracking-tight text-white uppercase group-hover:text-orange-400 transition-all">Game Garage</h1>
                 </div>
 
                 <!-- Moved Search to Sidebar -->
