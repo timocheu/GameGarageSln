@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using GameGarage.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,16 @@ builder.Services.AddDbContext<GameGarageDbContext>( options =>
 // Repository is made by using the context
 builder.Services.AddScoped<IGarageRepository, EFGarageRepository>();
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<GameGarageDbContext>()
+    .AddDefaultTokenProviders();
+
 var app = builder.Build();
 
 app.UseStaticFiles();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute("home", "/",
         new { Controller = "Home", action = "Index" });

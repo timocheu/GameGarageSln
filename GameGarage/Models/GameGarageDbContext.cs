@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace GameGarage.Models;
 
-public partial class GameGarageDbContext : DbContext
+public partial class GameGarageDbContext : IdentityDbContext<IdentityUser>
 {
     public GameGarageDbContext(DbContextOptions<GameGarageDbContext> options)
         : base(options) { }
@@ -12,6 +14,7 @@ public partial class GameGarageDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Game>(entity =>
         {
             entity.HasKey(e => e.Id);

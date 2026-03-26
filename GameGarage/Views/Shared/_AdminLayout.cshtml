@@ -1,0 +1,130 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="icon" type="image/svg" href="/images/logo.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+              },
+            }
+          }
+        }
+    </script>
+</head>
+
+<body class="bg-[#0b0e14] text-gray-200 font-sans antialiased overflow-hidden">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-72 bg-[#12161f] border-r border-gray-800 flex flex-col p-6 flex-shrink-0">
+            <!-- Sidebar Navigation Container (using div to avoid global nav { position: fixed } in site.css) -->
+            <div role="navigation" class="flex-1 flex flex-col">
+                <div class="flex items-center gap-3 mb-10 group cursor-pointer" onclick="location.href='@Url.Action("Index", "Home")'">
+                    <div class="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center shadow-lg shadow-orange-600/20 group-hover:bg-orange-500 transition-all">
+                        <i class="fas fa-gamepad text-white"></i>
+                    </div>
+                    <h1 class="text-xl font-bold tracking-tight text-white uppercase group-hover:text-orange-400 transition-all">Game Garage</h1>
+                </div>
+
+                <!-- Moved Search to Sidebar -->
+                <div class="relative mb-8 group">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-orange-500 transition-colors"></i>
+                    <input type="text" placeholder="Quick search..." class="w-full bg-[#1a1f29] border border-gray-800 rounded-xl py-2.5 pl-11 pr-4 focus:outline-none focus:border-orange-600 transition-all text-sm placeholder:text-gray-600">
+                </div>
+
+                <div class="space-y-2">
+                    <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4 px-3">Main Navigation</p>
+                    
+                    <a asp-controller="Admin" asp-action="Index" 
+                       class="flex items-center gap-4 p-3 rounded-xl transition-all @(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" ? "bg-orange-600/10 text-orange-500 font-bold" : "text-gray-400 hover:bg-gray-800 hover:text-white")">
+                        <i class="fas fa-th-large w-5 text-center"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a asp-controller="Games" asp-action="Index" 
+                       class="flex items-center gap-4 p-3 rounded-xl transition-all @(ViewContext.RouteData.Values["controller"]?.ToString() == "Games" ? "bg-orange-600/10 text-orange-500 font-bold" : "text-gray-400 hover:bg-gray-800 hover:text-white")">
+                        <i class="fas fa-layer-group w-5 text-center"></i>
+                        <span>Manage Games</span>
+                    </a>
+
+                    <a href="#" class="flex items-center gap-4 p-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition-all">
+                        <i class="fas fa-chart-line w-5 text-center"></i>
+                        <span>Analytics</span>
+                    </a>
+
+                    <a href="#" class="flex items-center gap-4 p-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition-all">
+                        <i class="fas fa-users w-5 text-center"></i>
+                        <span>Community</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-gray-800 space-y-4">
+                <!-- User Profile moved to Sidebar -->
+                <div class="flex items-center gap-3 px-3 py-2 bg-[#1a1f29]/50 rounded-2xl border border-gray-800/50">
+                    <div class="w-10 h-10 rounded-xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-600/10 flex-shrink-0">
+                        <i class="fas fa-user-shield text-white text-lg"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-xs font-bold text-white truncate">@User.Identity?.Name</p>
+                        <p class="text-[9px] uppercase font-black text-orange-500 tracking-wider">Admin</p>
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <a asp-controller="Home" asp-action="Index" class="flex items-center gap-3 p-2 text-gray-500 hover:text-orange-400 transition-all text-xs">
+                        <i class="fas fa-external-link-alt w-5 text-center"></i>
+                        <span>View Store</span>
+                    </a>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="w-full">
+                        <button type="submit" class="w-full flex items-center gap-3 p-2 text-gray-500 hover:text-red-500 transition-all text-xs">
+                            <i class="fas fa-sign-out-alt w-5 text-center"></i>
+                            <span>Sign Out</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+            <!-- Scrollable View Content -->
+            <main class="flex-1 overflow-y-auto custom-scrollbar">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #0b0e14;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #1a1f29;
+        border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #232936;
+    }
+</style>
