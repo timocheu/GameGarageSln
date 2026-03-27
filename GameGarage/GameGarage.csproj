@@ -25,4 +25,7 @@
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
+  <Target Name="Tailwind" BeforeTargets="Build">
+    <Exec Command="tailwind.exe -i .\wwwroot\css\tailwind-input.css -o .\wwwroot\css\tailwind.css" />
+  </Target>
 </Project>
