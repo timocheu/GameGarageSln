@@ -21,7 +21,7 @@ public class HomeController : Controller
         {
             Slides = games.OrderBy(g => EF.Functions.Random()).Take(4).ToArray(),
             Features = games.OrderBy(g => EF.Functions.Random()).Take(8).ToArray(),
-            NewRelease = games.OrderByDescending(g => g.ReleaseDate).Take(5).ToArray(),
+            NewRelease = games.AsEnumerable().OrderByDescending(g => g.ReleaseDate).ThenByDescending(g => g.Id).Take(5).ToArray(),
             CrossPlatform = games.Where(g => g.Windows == "True" && g.Mac == "True" && g.Linux == "True").Take(5).ToArray(),
             BudgetFriendly = games.Where(g => g.Price > 0).OrderBy(g => g.Price).Take(5).ToArray()
         };

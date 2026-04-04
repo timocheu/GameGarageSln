@@ -37,26 +37,26 @@ namespace GameGarage.Controllers
                                                 || (g.Developers != null && g.Developers.Contains(searchString)) 
                                                 || g.Id.ToString() == searchString);
             }
-
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentSort"] = sortOrder;
 
-            gamesQuery = sortOrder switch
+            var allGames = await gamesQuery.ToListAsync();
+            var totalItems = allGames.Count;
+
+            IEnumerable<Game> sortedGames = sortOrder switch
             {
-                "name_desc" => gamesQuery.OrderByDescending(g => g.Name),
-                "price" => gamesQuery.OrderBy(g => g.Price),
-                "price_desc" => gamesQuery.OrderByDescending(g => g.Price),
-                "date" => gamesQuery.OrderBy(g => g.ReleaseDate),
-                "date_desc" => gamesQuery.OrderByDescending(g => g.ReleaseDate),
-                _ => gamesQuery.OrderBy(g => g.Name),
+                "name_desc" => allGames.OrderByDescending(g => g.Name),
+                "price" => allGames.OrderBy(g => g.Price),
+                "price_desc" => allGames.OrderByDescending(g => g.Price),
+                "date" => allGames.OrderBy(g => g.ReleaseDate).ThenByDescending(g => g.Id),
+                "date_desc" => allGames.OrderByDescending(g => g.ReleaseDate).ThenByDescending(g => g.Id),
+                _ => allGames.OrderBy(g => g.Name),
             };
 
-            var totalItems = await gamesQuery.CountAsync();
-
-            var games = await gamesQuery
+            var games = sortedGames
                 .Skip((currentPage - 1) * PageSize)
                 .Take(PageSize)
-                .ToListAsync();
+                .ToList();
 
             return View(new CatalogListViewModel
             {
