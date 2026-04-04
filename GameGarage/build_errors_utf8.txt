@@ -1,0 +1,15 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\Program.cs(89,29): error CS1003: Syntax error, ',' expected [C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\GameGarage.csproj]
+C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\Program.cs(89,38): error CS1003: Syntax error, ',' expected [C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\GameGarage.csproj]
+C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\Program.cs(89,42): error CS1003: Syntax error, ',' expected [C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\GameGarage.csproj]
+
+Build FAILED.
+
+C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\Program.cs(89,29): error CS1003: Syntax error, ',' expected [C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\GameGarage.csproj]
+C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\Program.cs(89,38): error CS1003: Syntax error, ',' expected [C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\GameGarage.csproj]
+C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\Program.cs(89,42): error CS1003: Syntax error, ',' expected [C:\Users\Admin\OneDrive\CODES\GameGarageSln\GameGarage\GameGarage.csproj]
+    0 Warning(s)
+    3 Error(s)
+
+Time Elapsed 00:00:01.76

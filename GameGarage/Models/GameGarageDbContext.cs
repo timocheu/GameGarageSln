@@ -23,7 +23,7 @@ public partial class GameGarageDbContext : IdentityDbContext<IdentityUser>
             entity.ToTable("GamesLite");
 
             entity.Property(e => e.Id)
-                .HasColumnType("BIGINT")
+                .HasColumnType("INTEGER")
                 .HasColumnName("AppID");
 
             entity.Property(e => e.Name).HasColumnName("Name");
