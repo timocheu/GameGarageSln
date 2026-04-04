@@ -12,29 +12,21 @@ namespace GameGarage.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsersController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UsersController(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
         }
 
         public async Task<IActionResult> Index()
         {
             var users = _userManager.Users.ToList();
-            var userViewModels = new List<UserViewModel>();
-
-            foreach (var user in users)
+            var userViewModels = users.Select(user => new UserViewModel
             {
-                userViewModels.Add(new UserViewModel
-                {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    Roles = await _userManager.GetRolesAsync(user)
-                });
-            }
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email
+            }).ToList();
 
             return View(userViewModels);
         }
@@ -48,16 +40,11 @@ namespace GameGarage.Controllers
                 return NotFound();
             }
 
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var allRoles = _roleManager.Roles.Select(r => r.Name).ToList();
-
             var model = new EditUserViewModel
             {
                 Id = user.Id,
                 Email = user.Email,
-                UserName = user.UserName,
-                Roles = userRoles,
-                AllRoles = allRoles!
+                UserName = user.UserName
             };
 
             return View(model);
@@ -82,16 +69,6 @@ namespace GameGarage.Controllers
 
                 if (result.Succeeded)
                 {
-                    // Update Roles
-                    var userRoles = await _userManager.GetRolesAsync(user);
-                    var selectedRoles = model.Roles ?? new List<string>();
-
-                    var rolesToAdd = selectedRoles.Except(userRoles);
-                    var rolesToRemove = userRoles.Except(selectedRoles);
-
-                    await _userManager.AddToRolesAsync(user, rolesToAdd);
-                    await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
-
                     return RedirectToAction("Index");
                 }
 
@@ -101,7 +78,6 @@ namespace GameGarage.Controllers
                 }
             }
 
-            model.AllRoles = _roleManager.Roles.Select(r => r.Name).ToList()!;
             return View(model);
         }
 

@@ -12,76 +12,36 @@
             Back to Users
         </a>
         <h1 class="text-3xl font-black text-white mt-4 tracking-tighter italic uppercase">Edit User</h1>
-        <p class="text-gray-500 text-sm">Update profile information and assign roles for <span class="text-white font-bold opacity-80">@Model.UserName</span></p>
+        <p class="text-gray-500 text-sm">Update profile information for <span class="text-white font-bold opacity-80">@Model.UserName</span></p>
     </div>
 
     <form asp-action="Edit" method="post" class="space-y-8">
         <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm bg-red-500/10 border border-red-500/20 p-4 rounded-2xl mb-6"></div>
         <input type="hidden" asp-for="Id" />
 
-        <div class="grid grid-cols-2 gap-8">
-            <div class="space-y-6">
-                <!-- User Basic Details Card -->
-                <div class="bg-[#12161f] p-8 rounded-3xl border border-gray-800 shadow-xl overflow-hidden relative">
-                    <div class="absolute top-0 right-0 p-4 opacity-5">
-                        <i class="fas fa-id-card text-8xl"></i>
-                    </div>
-                    
-                    <h3 class="text-xs font-black text-gray-500 uppercase tracking-widest mb-8 flex items-center gap-2">
-                        <i class="fas fa-user-circle text-orange-500"></i>
-                        Profile Identity
-                    </h3>
-
-                    <div class="space-y-6">
-                        <div>
-                            <label asp-for="UserName" class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Display Name</label>
-                            <input asp-for="UserName" class="w-full bg-[#1a1f29] border border-gray-800 rounded-2xl py-4 px-5 focus:outline-none focus:border-orange-500 transition-all text-sm font-bold text-white placeholder:text-gray-700" placeholder="e.g. jdoe" />
-                            <span asp-validation-for="UserName" class="text-red-500 text-[10px] font-bold mt-1 block"></span>
-                        </div>
-
-                        <div>
-                            <label asp-for="Email" class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Email Address</label>
-                            <input asp-for="Email" class="w-full bg-[#1a1f29] border border-gray-800 rounded-2xl py-4 px-5 focus:outline-none focus:border-orange-500 transition-all text-sm font-bold text-white placeholder:text-gray-700" placeholder="e.g. john@example.com" />
-                            <span asp-validation-for="Email" class="text-red-500 text-[10px] font-bold mt-1 block"></span>
-                        </div>
-                    </div>
+        <div class="max-w-2xl">
+            <!-- User Basic Details Card -->
+            <div class="bg-[#12161f] p-8 rounded-3xl border border-gray-800 shadow-xl overflow-hidden relative">
+                <div class="absolute top-0 right-0 p-4 opacity-5">
+                    <i class="fas fa-id-card text-8xl"></i>
                 </div>
-            </div>
+                
+                <h3 class="text-xs font-black text-gray-500 uppercase tracking-widest mb-8 flex items-center gap-2">
+                    <i class="fas fa-user-circle text-orange-500"></i>
+                    Profile Identity
+                </h3>
 
-            <div class="space-y-6">
-                <!-- User Roles Card -->
-                <div class="bg-[#12161f] p-8 rounded-3xl border border-gray-800 shadow-xl relative overflow-hidden h-full">
-                     <div class="absolute top-0 right-0 p-4 opacity-5">
-                        <i class="fas fa-user-shield text-8xl"></i>
+                <div class="space-y-6">
+                    <div>
+                        <label asp-for="UserName" class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Username (Used for login)</label>
+                        <input asp-for="UserName" class="w-full bg-[#1a1f29] border border-gray-800 rounded-2xl py-4 px-5 focus:outline-none focus:border-orange-500 transition-all text-sm font-bold text-white placeholder:text-gray-700" placeholder="e.g. jdoe" />
+                        <span asp-validation-for="UserName" class="text-red-500 text-[10px] font-bold mt-1 block"></span>
                     </div>
 
-                    <h3 class="text-xs font-black text-gray-500 uppercase tracking-widest mb-8 flex items-center gap-2">
-                        <i class="fas fa-shield-alt text-orange-500"></i>
-                        Access Privileges
-                    </h3>
-
-                    <div class="space-y-4">
-                        @if (Model.AllRoles != null && Model.AllRoles.Any())
-                        {
-                            @foreach (var role in Model.AllRoles)
-                            {
-                                <label class="flex items-center gap-4 p-4 bg-[#1a1f29] rounded-2xl border border-gray-800 hover:border-orange-500/50 cursor-pointer group transition-all">
-                                    <div class="relative w-6 h-6">
-                                        <input type="checkbox" name="Roles" value="@role" class="peer appearance-none w-full h-full border-2 border-gray-700 rounded-lg checked:bg-orange-600 checked:border-orange-600 transition-all cursor-pointer" 
-                                               @(Model.Roles.Contains(role) ? "checked" : "") />
-                                        <i class="fas fa-check absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity"></i>
-                                    </div>
-                                    <span class="text-sm font-bold text-gray-400 group-hover:text-white transition-colors">@role</span>
-                                </label>
-                            }
-                        }
-                        else
-                        {
-                            <div class="text-center py-8">
-                                <i class="fas fa-exclamation-triangle text-orange-500/20 text-4xl mb-4"></i>
-                                <p class="text-[10px] text-gray-600 font-bold uppercase italic">No system roles defined</p>
-                            </div>
-                        }
+                    <div>
+                        <label asp-for="Email" class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Email Address</label>
+                        <input asp-for="Email" class="w-full bg-[#1a1f29] border border-gray-800 rounded-2xl py-4 px-5 focus:outline-none focus:border-orange-500 transition-all text-sm font-bold text-white placeholder:text-gray-700" placeholder="e.g. john@example.com" />
+                        <span asp-validation-for="Email" class="text-red-500 text-[10px] font-bold mt-1 block"></span>
                     </div>
                 </div>
             </div>
@@ -91,7 +51,7 @@
         <div class="flex items-center justify-between pt-10 border-t border-gray-800">
             <p class="text-[10px] text-gray-500 font-black uppercase tracking-widest flex items-center gap-2">
                 <i class="fas fa-info-circle text-blue-500 text-sm"></i>
-                Careful: Changing roles affects platform access levels
+                Careful: Email changes may affect account recovery.
             </p>
             <div class="flex gap-4">
                 <a asp-action="Index" class="px-8 py-4 bg-transparent border border-gray-800 rounded-2xl text-xs font-black text-gray-500 uppercase tracking-widest hover:border-gray-500 hover:text-white transition-all">Discard</a>

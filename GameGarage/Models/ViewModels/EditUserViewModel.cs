@@ -5,12 +5,6 @@ namespace GameGarage.Models.ViewModels
 {
     public class EditUserViewModel
     {
-        public EditUserViewModel()
-        {
-            Roles = new List<string>();
-            AllRoles = new List<string>();
-        }
-
         public string? Id { get; set; }
 
         [Required]
@@ -20,9 +14,5 @@ namespace GameGarage.Models.ViewModels
         [Required]
         [EmailAddress]
         public string? Email { get; set; }
-
-        public IList<string> Roles { get; set; }
-
-        public IList<string> AllRoles { get; set; }
     }
 }
