@@ -91,12 +91,10 @@
                                     placeholder="https://..." />
                             </div>
                             <div>
-                                <label asp-for="Screenshots"
-                                    class="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Screenshots (Comma
-                                    separated)</label>
-                                <input asp-for="Screenshots"
-                                    class="w-full bg-[#1a1f29] border border-gray-700 rounded-xl py-3 px-4 focus:ring-2 focus:ring-orange-600/50 focus:border-orange-500 transition-all outline-none"
-                                    placeholder="url1, url2, url3" />
+                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Screenshots (One URL per line)</label>
+                                <textarea name="Screenshots" rows="3"
+                                    class="w-full bg-[#1a1f29] border border-gray-700 rounded-xl py-3 px-4 focus:ring-2 focus:ring-orange-600/50 focus:border-orange-500 transition-all outline-none resize-none"
+                                    placeholder="https://image1.jpg&#10;https://image2.jpg"></textarea>
                             </div>
                         </div>
                     </div>
@@ -160,6 +158,12 @@
                                 <label asp-for="Publishers"
                                     class="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Publishers</label>
                                 <input asp-for="Publishers"
+                                    class="w-full bg-[#1a1f29] border border-gray-700 rounded-xl py-2 px-4 text-sm outline-none focus:border-orange-500" />
+                            </div>
+                            <div>
+                                <label asp-for="Categories"
+                                    class="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Genre / Categories</label>
+                                <input asp-for="Categories"
                                     class="w-full bg-[#1a1f29] border border-gray-700 rounded-xl py-2 px-4 text-sm outline-none focus:border-orange-500" />
                             </div>
                             <div>

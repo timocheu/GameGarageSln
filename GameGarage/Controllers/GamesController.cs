@@ -102,8 +102,21 @@ namespace GameGarage.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ReleaseDate,Price,AboutTheGame,Notes,Developers,Publishers,Categories,HeaderImage,Screenshots,Tags,Windows,Mac,Linux")] Game game)
+        public async Task<IActionResult> Create([Bind("Id,Name,ReleaseDate,Price,AboutTheGame,Notes,Developers,Publishers,Categories,HeaderImage,Tags,Windows,Mac,Linux")] Game game)
         {
+            // Manually handle screenshots from form if present
+            var screenshotsRaw = Request.Form["Screenshots"].ToString();
+            if (!string.IsNullOrWhiteSpace(screenshotsRaw))
+            {
+                game.Screenshots = screenshotsRaw
+                    .Split(new[] { '\r', '\n', ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(s => s.Trim())
+                    .ToList();
+            }
+
+            // Remove Screenshots from ModelState validation since we handled it manually
+            ModelState.Remove("Screenshots");
+
             if (ModelState.IsValid)
             {
                 _context.Add(game);
@@ -137,12 +150,29 @@ namespace GameGarage.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ReleaseDate,Price,AboutTheGame,Notes,Developers,Publishers,Categories,HeaderImage,Screenshots,Tags,Windows,Mac,Linux")] Game game)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ReleaseDate,Price,AboutTheGame,Notes,Developers,Publishers,Categories,HeaderImage,Tags,Windows,Mac,Linux")] Game game)
         {
             if (id != game.Id)
             {
                 return NotFound();
             }
+
+            // Manually handle screenshots from form if present
+            var screenshotsRaw = Request.Form["Screenshots"].ToString();
+            if (!string.IsNullOrWhiteSpace(screenshotsRaw))
+            {
+                game.Screenshots = screenshotsRaw
+                    .Split(new[] { '\r', '\n', ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(s => s.Trim())
+                    .ToList();
+            }
+            else
+            {
+                game.Screenshots = new List<string>();
+            }
+
+            // Remove Screenshots from ModelState validation since we handled it manually
+            ModelState.Remove("Screenshots");
 
             if (ModelState.IsValid)
             {
