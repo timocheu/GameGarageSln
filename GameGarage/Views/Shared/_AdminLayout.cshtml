@@ -61,6 +61,12 @@
                         <span>Manage Games</span>
                     </a>
 
+                    <a asp-controller="Users" asp-action="Index" 
+                       class="flex items-center gap-4 p-3 rounded-xl transition-all @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" ? "bg-orange-600/10 text-orange-500 font-bold" : "text-gray-400 hover:bg-gray-800 hover:text-white")">
+                        <i class="fas fa-users w-5 text-center"></i>
+                        <span>Manage Users</span>
+                    </a>
+
                     <a asp-controller="AdminLog" asp-action="Index" 
                        class="flex items-center gap-4 p-3 rounded-xl transition-all @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminLog" ? "bg-orange-600/10 text-orange-500 font-bold" : "text-gray-400 hover:bg-gray-800 hover:text-white")">
                         <i class="fas fa-history w-5 text-center"></i>
