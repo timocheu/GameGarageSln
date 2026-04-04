@@ -15,10 +15,10 @@
         <h1 class="hero-title fade-in delay-1">BLACK MYTH<br><em>WUKONG</em></h1>
         <p class="hero-desc fade-in delay-2">Journey as the Destined One through a breathtaking world rooted in Chinese mythology. Face legendary beings and uncover a long-forgotten truth.</p>
         <div class="hero-actions fade-in delay-3">
-            <button class="btn-hero-primary">
+            <a href="/Games/Details/4162631" class="btn-hero-primary">
                 <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none" /></svg>
-                Play Now $49.99
-            </button>
+                See Experience $49.99
+            </a>
             <button class="btn-hero-ghost">Add to Wishlist</button>
         </div>
         <div class="hero-meta fade-in delay-4">
@@ -78,9 +78,9 @@
     const slides = ['slide-1','slide-2','slide-3'];
     const thumbs = document.querySelectorAll('.slide-thumb');
     const heroTitles = [
-      { tag:'Featured Release', title:'BLACK MYTH\n<em>WUKONG</em>', desc:'Journey as the Destined One through a breathtaking world rooted in Chinese mythology.', price:'$49.99', image: 'https://preview.redd.it/black-myth-wukong-8k-resolution-wallpaper-v0-kyuamtohf8gd1.jpg?width=3840&format=pjpg&auto=webp&s=77ea2ce3c89e94f49ab717e763f378137bec7dd7'},
-      { tag:'Most Popular', title:'GRAND THEFT\n<em>ONLINE</em>', desc:'The ever-evolving online world of Los Santos. Hundreds of missions, heists, and more.', price:'Free', image: 'https://4kwallpapers.com/images/wallpapers/grand-theft-auto-v-2560x1440-10734.jpg' },
-      { tag:'Fan Favourite', title:'READY OR\n<em>NOT</em>', desc:'Make a crazy comeback. Through team operation undermining the enemy.', price:'$49.99', image: 'https://4kwallpapers.com/images/wallpapers/swat-ready-or-not-3840x2160-23256.jpg' }
+      { id: '4162631', tag:'Featured Release', title:'BLACK MYTH\n<em>WUKONG</em>', desc:'Journey as the Destined One through a breathtaking world rooted in Chinese mythology.', price:'$30.00', image: 'https://preview.redd.it/black-myth-wukong-8k-resolution-wallpaper-v0-kyuamtohf8gd1.jpg?width=3840&format=pjpg&auto=webp&s=77ea2ce3c89e94f49ab717e763f378137bec7dd7'},
+      { id: '4162632', tag:'Most Popular', title:'GRAND THEFT\n<em>ONLINE</em>', desc:'The ever-evolving online world of Los Santos. Hundreds of missions, heists, and more.', price:'$19.00', image: 'https://4kwallpapers.com/images/wallpapers/grand-theft-auto-v-2560x1440-10734.jpg' },
+      { id: '4162633', tag:'Fan Favourite', title:'READY OR\n<em>NOT</em>', desc:'Make a crazy comeback. Through team operation undermining the enemy.', price:'$20.00', image: 'https://4kwallpapers.com/images/wallpapers/swat-ready-or-not-3840x2160-23256.jpg' }
     ];
     let current = 0;
 
@@ -98,7 +98,9 @@
 
       hero.style.backgroundImage = `url('${t.image}')`;
       hero.style.backgroundSize = "cover"; // Ensures it fits nicely
-      document.querySelector('.btn-hero-primary').innerHTML = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:#fff"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none"/></svg> Play Now � ${t.price}`;
+      const btn = document.querySelector('.btn-hero-primary');
+      btn.innerHTML = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:#fff"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none"/></svg> See Experience · ${t.price}`;
+      btn.setAttribute('href', `/Games/Details/${t.id}`);
     }
 
     setInterval(() => goSlide((current + 1) % slides.length), 5000);

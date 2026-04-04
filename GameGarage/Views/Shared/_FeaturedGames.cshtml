@@ -2,11 +2,11 @@
 @{
     var heroTitles = new Dictionary<string, string>[]
     {
-      new() { ["tag"] = "Featured Release", ["title"] =  "BLACK MYTH WUKONG", ["desc"] = "Journey as the Destined One through a breathtaking world rooted in Chinese mythology.", ["price"] = "$49.99", ["image"] = "https://preview.redd.it/black-myth-wukong-8k-resolution-wallpaper-v0-kyuamtohf8gd1.jpg?width=3840&format=pjpg&auto=webp&s=77ea2ce3c89e94f49ab717e763f378137bec7dd7"},
-      new() { ["tag"] = "Most Popular", ["title"] =  "GRAND THEFT ONLINE", ["desc"] = "The ever-evolving online world of Los Santos. Hundreds of missions, heists, and more.", ["price"] = "Free", ["image"] = "https://4kwallpapers.com/images/wallpapers/grand-theft-auto-v-2560x1440-10734.jpg"},
-      new() { ["tag"] = "Fan Favourite", ["title"] =  "READY OR NOT ", ["desc"] = "Make a crazy comeback. Through team operation undermining the enemy.", ["price"] = "$49.99", ["image"] = "https://4kwallpapers.com/images/wallpapers/swat-ready-or-not-3840x2160-23256.jpg"},
-      new() { ["tag"] = "Featured Release", ["title"] =  "BLACK MYTH WUKONG", ["desc"] = "Journey as the Destined One through a breathtaking world rooted in Chinese mythology.", ["price"] = "$49.99", ["image"] = "https://preview.redd.it/black-myth-wukong-8k-resolution-wallpaper-v0-kyuamtohf8gd1.jpg?width=3840&format=pjpg&auto=webp&s=77ea2ce3c89e94f49ab717e763f378137bec7dd7"},
-      new() { ["tag"] = "Featured Release", ["title"] =  "BLACK MYTH WUKONG", ["desc"] = "Journey as the Destined One through a breathtaking world rooted in Chinese mythology.", ["price"] = "$49.99", ["image"] = "https://preview.redd.it/black-myth-wukong-8k-resolution-wallpaper-v0-kyuamtohf8gd1.jpg?width=3840&format=pjpg&auto=webp&s=77ea2ce3c89e94f49ab717e763f378137bec7dd7"},
+      new() { ["id"] = "4162631", ["tag"] = "Featured Release", ["title"] =  "BLACK MYTH WUKONG", ["desc"] = "Journey as the Destined One through a breathtaking world rooted in Chinese mythology.", ["price"] = "$30.00", ["image"] = "https://preview.redd.it/black-myth-wukong-8k-resolution-wallpaper-v0-kyuamtohf8gd1.jpg?width=3840&format=pjpg&auto=webp&s=77ea2ce3c89e94f49ab717e763f378137bec7dd7", ["genre"] = "Action RPG · Mythical"},
+      new() { ["id"] = "4162632", ["tag"] = "Most Popular", ["title"] =  "GRAND THEFT ONLINE", ["desc"] = "The ever-evolving online world of Los Santos. Hundreds of missions, heists, and more.", ["price"] = "$19.00", ["image"] = "https://4kwallpapers.com/images/wallpapers/grand-theft-auto-v-2560x1440-10734.jpg", ["genre"] = "Open World · Action"},
+      new() { ["id"] = "4162633", ["tag"] = "Fan Favourite", ["title"] =  "READY OR NOT ", ["desc"] = "Make a crazy comeback. Through team operation undermining the enemy.", ["price"] = "$20.00", ["image"] = "https://4kwallpapers.com/images/wallpapers/swat-ready-or-not-3840x2160-23256.jpg", ["genre"] = "Tactical · FPS"},
+      new() { ["id"] = "4162634", ["tag"] = "Featured Release", ["title"] =  "RED DEAD REDEMPTION II", ["desc"] = "America, 1899. Arthur Morgan and the Van der Linde Gang are outlaws on the run.", ["price"] = "$18.00", ["image"] = "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/ss_bac60bacbf5da8945103648c08d27d5e202444ca.1920x1080.jpg?t=1759502961", ["genre"] = "Open World · Western"},
+      new() { ["id"] = "4162635", ["tag"] = "Featured Release", ["title"] =  "SUBNAUTICA", ["desc"] = "Subnautica is an underwater adventure game set on an alien ocean planet.", ["price"] = "$5.00", ["image"] = "https://www.psu.com/wp/wp-content/uploads/2018/12/subnautica-review.png", ["genre"] = "Survival · Adventure"},
     };
 }
 
@@ -24,6 +24,7 @@
 
             <!-- Hero card -->
             <div class="game-card hero-card">
+                <a asp-controller="Games" asp-action="Details" asp-route-id="@heroTitles[0]["id"]">
                 <div class="card-badge badge-hot">Trending</div>
                 <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
                 <div class="card-art" style="min-height:380px; height: 80%; font-size:110px; background-image: url('@(heroTitles[0]["image"])');">
@@ -39,11 +40,13 @@
                         9.4
                     </div>
                 </div>
+                </a>
             </div>
 
             <!-- Small cards row 1 -->
             @for (int i = 1; i < heroTitles.Length; i++)
             {
+                <a class="block" asp-controller="Games" asp-action="Details" asp-route-id="@heroTitles[i]["id"]">
                 <div class="game-card">
                     <div class="card-badge badge-new">New</div>
                     <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
@@ -53,82 +56,12 @@
                         <div class="card-genre">Open World · Action</div>
                     </div>
                     <div class="card-footer">
-                        <div class="card-price">Free <span class="was">@heroTitles[i]["price"]</span></div>
+                        <div class="card-price">@heroTitles[i]["price"]</div>
                         <div class="card-rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>8.8</div>
                     </div>
                 </div>
+                </a>
             }
-
-           @*  <div class="game-card">
-                <div class="card-badge badge-new">New</div>
-                <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
-                <div class="card-art art-gta">???</div>
-                <div class="card-body">
-                    <div class="card-title">Grand Theft Auto Online</div>
-                    <div class="card-genre">Open World · Action</div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-price">Free <span class="was">$29.99</span></div>
-                    <div class="card-rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>8.8</div>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="card-badge badge-sale">-30% OFF</div>
-                <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
-                <div class="card-art art-elden">??</div>
-                <div class="card-body">
-                    <div class="card-title">Elden Ring</div>
-                    <div class="card-genre">Souls-like · Open World</div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-price">$41.99 <span class="was">$59.99</span></div>
-                    <div class="card-rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>9.6</div>
-                </div>
-            </div>
-
-            <!-- Small cards row 2 -->
-            <div class="game-card">
-                <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
-                <div class="card-art art-stardew">??</div>
-                <div class="card-body">
-                    <div class="card-title">Stardew Valley</div>
-                    <div class="card-genre">Simulation · Farming</div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-price">$14.99</div>
-                    <div class="card-rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>9.3</div>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="card-badge badge-new">New</div>
-                <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
-                <div class="card-art art-dragon">??</div>
-                <div class="card-body">
-                    <div class="card-title">Dragon Ball: Sparking Zero</div>
-                    <div class="card-genre">Fighting · Anime</div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-price">$59.99</div>
-                    <div class="card-rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>8.6</div>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="card-badge badge-new">New</div>
-                <div class="card-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
-                <div class="card-art art-dragon">??</div>
-                <div class="card-body">
-                    <div class="card-title">Dragon Ball: Sparking Zero</div>
-                    <div class="card-genre">Fighting · Anime</div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-price">$59.99</div>
-                    <div class="card-rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>8.6</div>
-                </div>
-            </div>
- *@
         </div>
     </div>
 </section>
