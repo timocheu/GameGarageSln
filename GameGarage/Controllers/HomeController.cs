@@ -15,20 +15,15 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        // Generate random pool view models
-        var randomPool = repository.Games
-            .OrderBy(g => EF.Functions.Random())
-            .Take(30)
-            .ToArray();
-
-        // Add into view model
+        var games = repository.Games;
+        
         var viewModels = new HomeViewModel
         {
-            Slides = randomPool.Take(4).ToArray(),
-            Features = randomPool.Skip(4).Take(8).ToArray(),
-            NewRelease = randomPool.Skip(12).Take(5).ToArray(),
-            TopPlayerRated = randomPool.Skip(17).Take(5).ToArray(),
-            MostPlayed = randomPool.Skip(22).Take(5).ToArray()
+            Slides = games.OrderBy(g => EF.Functions.Random()).Take(4).ToArray(),
+            Features = games.OrderBy(g => EF.Functions.Random()).Take(8).ToArray(),
+            NewRelease = games.OrderByDescending(g => g.ReleaseDate).Take(5).ToArray(),
+            CrossPlatform = games.Where(g => g.Windows == "True" && g.Mac == "True" && g.Linux == "True").Take(5).ToArray(),
+            BudgetFriendly = games.Where(g => g.Price > 0).OrderBy(g => g.Price).Take(5).ToArray()
         };
 
         return View(viewModels);
