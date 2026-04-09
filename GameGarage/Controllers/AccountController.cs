@@ -61,16 +61,25 @@ namespace GameGarage.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email!, model.Password!, model.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                // Find the user by Email first
+                var user = await _userManager.FindByEmailAsync(model.Email!);
+                
+                if (user != null)
                 {
-                    await _auditService.LogAction(model.Email!, "Login", $"User {model.Email} logged in successfully.");
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    // Use the user's actual UserName property to perform the sign-in
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName!, model.Password!, model.RememberMe, lockoutOnFailure: false);
+                    
+                    if (result.Succeeded)
                     {
-                        return Redirect(returnUrl);
+                        await _auditService.LogAction(model.Email!, "Login", $"User {model.Email} logged in successfully.");
+                        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                        return RedirectToAction("Index", "Games");
                     }
-                    return RedirectToAction("Index", "Games");
                 }
+                
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
             return View(model);

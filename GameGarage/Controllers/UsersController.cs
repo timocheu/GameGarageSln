@@ -12,10 +12,14 @@ namespace GameGarage.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly GameGarage.Infrastructure.IAuditService _auditService;
 
-        public UsersController(UserManager<IdentityUser> userManager)
+        public UsersController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, GameGarage.Infrastructure.IAuditService auditService)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
+            _auditService = auditService;
         }
 
         public async Task<IActionResult> Index()
@@ -69,6 +73,15 @@ namespace GameGarage.Controllers
 
                 if (result.Succeeded)
                 {
+                    // If the updated user is the current user, refresh the sign-in cookie
+                    var currentUser = await _userManager.GetUserAsync(User);
+                    if (currentUser != null && currentUser.Id == user.Id)
+                    {
+                        await _signInManager.RefreshSignInAsync(user);
+                    }
+
+                    await _auditService.LogAction(User.Identity?.Name ?? "Admin", "Edit User", $"Updated profile for user '{user.UserName}' (ID: {user.Id})");
+
                     return RedirectToAction("Index");
                 }
 
@@ -91,9 +104,12 @@ namespace GameGarage.Controllers
                 return NotFound();
             }
 
+            var userName = user.UserName;
+            var userId = user.Id;
             var result = await _userManager.DeleteAsync(user);
             if (result.Succeeded)
             {
+                await _auditService.LogAction(User.Identity?.Name ?? "Admin", "Delete User", $"Deleted user account '{userName}' (ID: {userId})");
                 return RedirectToAction("Index");
             }
 
